@@ -1,0 +1,22 @@
+{
+  "name": "serverless-plugin-typescript",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "rm -rf dist && tsc"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^2.0.0",
+    "@types/lodash": "^4.14.62"
+  },
+  "dependencies": {
+    "fs-p": "^2.0.0",
+    "lodash": "^4.17.4",
+    "typescript": "^2.2.2"
+  }
+}
