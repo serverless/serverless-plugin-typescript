@@ -1,5 +1,7 @@
 # serverless-plugin-typescript
 
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript)
+
 Serverless plugin for zero-config Typescript support
 
 ## Features
@@ -40,7 +42,7 @@ The default `tsconfig.json` file used by the plugin looks like this:
 }
 ```
 
-> Note: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one being used by the plugin.
+> Note: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 
 ## Help & Community [![Slack Status](https://slack.graph.cool/badge.svg)](https://slack.graph.cool)
 
