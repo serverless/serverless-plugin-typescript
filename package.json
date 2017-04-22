@@ -9,7 +9,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc",
-    "prebuild": "npm run lint",
+    "test": "npm run lint",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
