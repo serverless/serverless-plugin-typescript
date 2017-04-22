@@ -9,7 +9,7 @@ export function extractFileNames(functions: { [key: string]: ServerlessFunction 
     .map(fn => fn.handler)
     .map(h => {
       const fnName = _.last(h.split('.'))
-      return h.replace(fnName, 'ts')
+      return h.substring(0, h.lastIndexOf(fnName)) + 'ts';
     })
 }
 
