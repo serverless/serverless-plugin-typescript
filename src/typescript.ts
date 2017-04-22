@@ -10,9 +10,8 @@ export function extractFileNames(functions: { [key: string]: ServerlessFunction 
     .map(h => {
       const fnName = _.last(h.split('.'))
       const fnNameLastAppearanceIndex = h.lastIndexOf(fnName)
-
       // replace only last instance to allow the same name for file and handler
-      return h.substring(0, fnNameLastAppearanceIndex) + 'ts';
+      return h.substring(0, fnNameLastAppearanceIndex) + 'ts'
     })
 }
 
