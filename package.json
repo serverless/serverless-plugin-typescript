@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "prepublish": "npm run build",
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
     "@types/fs-extra": "^2.0.0",
