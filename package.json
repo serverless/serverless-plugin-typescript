@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-typescript",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/src/index.js",
   "files": [
     "dist",
@@ -12,6 +12,16 @@
     "test": "npm run lint",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphcool/serverless-plugin-typescript.git"
+  },
+  "keywords": [
+    "serverless",
+    "serverless plugin",
+    "typescript",
+    "aws lambda"
+  ],
   "devDependencies": {
     "@types/fs-extra": "^2.0.0",
     "@types/lodash": "^4.14.62",
