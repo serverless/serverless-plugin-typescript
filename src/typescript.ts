@@ -66,6 +66,7 @@ export function getTypescriptConfig(cwd: string): ts.CompilerOptions {
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     lib: ['lib.es2015.d.ts'],
+    rootDir: './',
   }
 
   return defaultTypescriptConfig
