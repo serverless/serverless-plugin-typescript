@@ -1,7 +1,12 @@
 {
   "name": "serverless-plugin-typescript",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "main": "dist/src/index.js",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc",
