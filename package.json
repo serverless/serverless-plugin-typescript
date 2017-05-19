@@ -24,12 +24,13 @@
     "aws lambda"
   ],
   "devDependencies": {
-    "@types/fs-extra": "^2.0.0",
+    "@types/fs-extra": "2.0.0",
     "@types/lodash": "^4.14.62",
     "tslint": "^5.1.0"
   },
   "dependencies": {
-    "fs-p": "^2.0.0",
+    "fs-p": "2.0.0",
+    "globby": "^6.1.0",
     "lodash": "^4.17.4",
     "typescript": "^2.2.2"
   }
