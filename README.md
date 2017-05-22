@@ -44,6 +44,10 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 > Note: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 
+## Including extra files
+
+All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)
+
 ## Help & Community [![Slack Status](https://slack.graph.cool/badge.svg)](https://slack.graph.cool)
 
 Join our [Slack community](http://slack.graph.cool/) if you run into issues or have questions. We love talking to you!
