@@ -57,17 +57,16 @@ class ServerlessPlugin {
     fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
     // include any "extras" from the "include" section
     if(this.serverless.service.package.include && this.serverless.service.package.include.length > 0){
-      globby(this.serverless.service.package.include).then((files) => {
-        _.forEach(files, (filename) => {
-          let destFileName = path.resolve(path.join(buildFolder, filename));
-          let dirname = path.dirname(destFileName);
-          if(!fs.existsSync(dirname)){
-            fs.mkdirpSync(dirname);
-          }
-          if(!fs.existsSync(destFileName)){
-            fs.copySync(path.resolve(filename), path.resolve(path.join(buildFolder, filename)));
-          }
-        });
+      const files = await globby(this.serverless.service.package.include);
+      _.forEach(files, (filename) => {
+        const destFileName = path.resolve(path.join(buildFolder, filename));
+        let dirname = path.dirname(destFileName);
+        if (!fs.existsSync(dirname)) {
+          fs.mkdirpSync(dirname);
+        }
+        if (!fs.existsSync(destFileName)) {
+          fs.copySync(path.resolve(filename), path.resolve(path.join(buildFolder, filename)));
+        }
       });
     }
   }
