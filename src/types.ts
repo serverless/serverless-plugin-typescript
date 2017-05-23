@@ -8,11 +8,13 @@ export interface ServerlessInstance {
   service: {
     functions: { [key: string]: ServerlessFunction }
     package: ServerlessPackage
+    getFunction: (name: string) => any
   }
 }
 
 export interface ServerlessOptions {
-
+  function?: string
+  extraServicePath?: string
 }
 
 export interface ServerlessFunction {
