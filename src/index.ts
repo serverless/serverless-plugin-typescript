@@ -104,9 +104,6 @@ class ServerlessPlugin {
   }
 
   async afterCreateDeploymentArtifacts(): Promise<void> {
-    // Restore service path
-    this.serverless.config.servicePath = this.originalServicePath
-
     // Copy .build to .serverless
     await fs.copy(
       path.join(this.originalServicePath, buildFolder, serverlessFolder),
@@ -115,8 +112,8 @@ class ServerlessPlugin {
 
     this.serverless.service.package.artifact = path.join(this.originalServicePath, serverlessFolder, path.basename(this.serverless.service.package.artifact))
 
-    // Remove temp build folder
-    fs.removeSync(path.join(this.originalServicePath, buildFolder))
+    // Cleanup after everything is copied
+    await this.cleanup();
   }
 
   async cleanup(): Promise<void> {
