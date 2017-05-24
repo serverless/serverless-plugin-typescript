@@ -16,6 +16,7 @@ class ServerlessPlugin {
 
   serverless: ServerlessInstance
   options: ServerlessOptions
+  commands:{ [key: string]: any }
   hooks: { [key: string]: Function }
 
   constructor(serverless: ServerlessInstance, options: ServerlessOptions) {
@@ -25,6 +26,31 @@ class ServerlessPlugin {
     this.hooks = {
       'before:deploy:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
       'after:deploy:createDeploymentArtifacts': this.afterCreateDeploymentArtifacts.bind(this),
+      'before:invoke:local:invoke': this.beforeCreateDeploymentArtifacts.bind(this),
+      'after:invoke:local:invoke': this.cleanup.bind(this),
+    }
+    this.commands = {
+      ts: {
+        commands: {
+          invoke: {
+            usage: 'Run a function locally from the tsc output bundle',
+            lifecycleEvents: [
+              'invoke',
+            ],
+            options: {
+              function: {
+                usage: 'Name of the function',
+                shortcut: 'f',
+                required: true,
+              },
+              path: {
+                usage: 'Path to JSON file holding input data',
+                shortcut: 'p',
+              },
+            },
+          },
+        },
+      },
     }
   }
 
@@ -54,7 +80,9 @@ class ServerlessPlugin {
     await typescript.run(tsFileNames, tsconfig)
 
     // include node_modules into build
-    fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+    if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
+      fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+    }
     
     // include any "extras" from the "include" section
     if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0){
@@ -76,9 +104,6 @@ class ServerlessPlugin {
   }
 
   async afterCreateDeploymentArtifacts(): Promise<void> {
-    // Restore service path
-    this.serverless.config.servicePath = this.originalServicePath
-
     // Copy .build to .serverless
     await fs.copy(
       path.join(this.originalServicePath, buildFolder, serverlessFolder),
@@ -87,9 +112,17 @@ class ServerlessPlugin {
 
     this.serverless.service.package.artifact = path.join(this.originalServicePath, serverlessFolder, path.basename(this.serverless.service.package.artifact))
 
+    // Cleanup after everything is copied
+    await this.cleanup();
+  }
+
+  async cleanup(): Promise<void> {
+    // Restore service path
+    this.serverless.config.servicePath = this.originalServicePath
     // Remove temp build folder
     fs.removeSync(path.join(this.originalServicePath, buildFolder))
   }
+
 }
 
 module.exports = ServerlessPlugin
