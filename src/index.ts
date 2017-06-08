@@ -13,6 +13,7 @@ const buildFolder = '.build'
 class ServerlessPlugin {
 
   private originalServicePath: string
+  private tsOutDirSuffix: string = ""
 
   serverless: ServerlessInstance
   options: ServerlessOptions
@@ -22,6 +23,9 @@ class ServerlessPlugin {
   constructor(serverless: ServerlessInstance, options: ServerlessOptions) {
     this.serverless = serverless
     this.options = options
+    if (serverless.service.custom && this.serverless.service.custom.tsOutDirSuffix) {
+      this.tsOutDirSuffix = this.serverless.service.custom.tsOutDirSuffix
+    }
 
     this.hooks = {
       'before:deploy:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
@@ -75,7 +79,7 @@ class ServerlessPlugin {
       fn.package.exclude = _.uniq([...fn.package.exclude, 'node_modules/serverless-plugin-typescript'])
     }
 
-    tsconfig.outDir = buildFolder
+    tsconfig.outDir = path.join(buildFolder, this.tsOutDirSuffix)
 
     await typescript.run(tsFileNames, tsconfig)
 
@@ -83,19 +87,19 @@ class ServerlessPlugin {
     if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
       fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
     }
-    
+
     // include any "extras" from the "include" section
     if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0){
       const files = await globby(this.serverless.service.package.include)
-      
+
       for (const filename of files) {
         const destFileName = path.resolve(path.join(buildFolder, filename))
         const dirname = path.dirname(destFileName)
-        
+
         if (!fs.existsSync(dirname)) {
           fs.mkdirpSync(dirname)
         }
-        
+
         if (!fs.existsSync(destFileName)) {
           fs.copySync(path.resolve(filename), path.resolve(path.join(buildFolder, filename)))
         }
