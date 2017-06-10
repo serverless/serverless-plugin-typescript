@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "prepublish": "npm run build",
+    "precommit": "npm run test",
     "build": "rm -rf dist && tsc",
     "pretest": "npm run lint",
     "test": "jest",
