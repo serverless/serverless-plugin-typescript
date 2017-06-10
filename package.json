@@ -9,8 +9,10 @@
   ],
   "scripts": {
     "prepublish": "npm run build",
+    "precommit": "npm run test",
     "build": "rm -rf dist && tsc",
-    "test": "npm run lint",
+    "pretest": "npm run lint",
+    "test": "jest",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "repository": {
@@ -25,7 +27,11 @@
   ],
   "devDependencies": {
     "@types/fs-extra": "2.0.0",
+    "@types/jest": "^19.2.4",
     "@types/lodash": "^4.14.62",
+    "jest": "^20.0.4",
+    "mock-fs": "^4.3.0",
+    "ts-jest": "^20.0.6",
     "tslint": "^5.1.0"
   },
   "dependencies": {
@@ -33,5 +39,16 @@
     "globby": "^6.1.0",
     "lodash": "^4.17.4",
     "typescript": "^2.2.2"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   }
 }

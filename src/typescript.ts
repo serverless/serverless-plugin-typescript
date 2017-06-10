@@ -4,6 +4,20 @@ import * as _ from 'lodash'
 import { ServerlessFunction } from './types'
 import * as path from 'path'
 
+export function makeDefaultTypescriptConfig() {
+  const defaultTypescriptConfig: ts.CompilerOptions = {
+    preserveConstEnums: true,
+    strictNullChecks: true,
+    sourceMap: true,
+    target: ts.ScriptTarget.ES5,
+    moduleResolution: ts.ModuleResolutionKind.NodeJs,
+    lib: ['lib.es2015.d.ts'],
+    rootDir: './',
+  }
+
+  return defaultTypescriptConfig
+}
+
 export function extractFileNames(functions: { [key: string]: ServerlessFunction }): string[] {
   return _.values(functions)
     .map(fn => fn.handler)
@@ -59,15 +73,5 @@ export function getTypescriptConfig(cwd: string): ts.CompilerOptions {
     return configParseResult.options
   }
 
-  const defaultTypescriptConfig: ts.CompilerOptions = {
-    preserveConstEnums: true,
-    strictNullChecks: true,
-    sourceMap: true,
-    target: ts.ScriptTarget.ES5,
-    moduleResolution: ts.ModuleResolutionKind.NodeJs,
-    lib: ['lib.es2015.d.ts'],
-    rootDir: './',
-  }
-
-  return defaultTypescriptConfig
+  return makeDefaultTypescriptConfig()
 }
