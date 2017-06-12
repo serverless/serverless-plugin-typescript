@@ -13,11 +13,11 @@ const buildFolder = '.build'
 class ServerlessPlugin {
 
   private originalServicePath: string
-  private tsOutDirSuffix: string = ""
+  private tsOutDirSuffix: string = ''
 
   serverless: ServerlessInstance
   options: ServerlessOptions
-  commands:{ [key: string]: any }
+  commands: { [key: string]: any }
   hooks: { [key: string]: Function }
 
   constructor(serverless: ServerlessInstance, options: ServerlessOptions) {
@@ -89,7 +89,7 @@ class ServerlessPlugin {
     }
 
     // include any "extras" from the "include" section
-    if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0){
+    if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0) {
       const files = await globby(this.serverless.service.package.include)
 
       for (const filename of files) {
@@ -117,7 +117,7 @@ class ServerlessPlugin {
     this.serverless.service.package.artifact = path.join(this.originalServicePath, serverlessFolder, path.basename(this.serverless.service.package.artifact))
 
     // Cleanup after everything is copied
-    await this.cleanup();
+    await this.cleanup()
   }
 
   async cleanup(): Promise<void> {
