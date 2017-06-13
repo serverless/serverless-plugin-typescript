@@ -43,7 +43,8 @@ The default `tsconfig.json` file used by the plugin looks like this:
 }
 ```
 
-> Note: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
+> Note 1: The `outDir` option cannot be overwritten.
+> Note 2: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 
 ## Including extra files
 
