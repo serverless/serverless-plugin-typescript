@@ -9,6 +9,7 @@ export interface ServerlessInstance {
     functions: { [key: string]: ServerlessFunction }
     package: ServerlessPackage
     getFunction: (name: string) => any
+    custom?: any
   }
 }
 
