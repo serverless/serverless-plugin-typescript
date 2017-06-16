@@ -25,8 +25,8 @@ class ServerlessPlugin {
 
     this.hooks = {
       'before:offline:start:init': this.beforeCreateDeploymentArtifacts.bind(this),
-      'before:deploy:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
-      'after:deploy:createDeploymentArtifacts': this.afterCreateDeploymentArtifacts.bind(this),
+      'before:package:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
+      'after:package:createDeploymentArtifacts': this.afterCreateDeploymentArtifacts.bind(this),
       'before:invoke:local:invoke': this.beforeCreateDeploymentArtifacts.bind(this),
       'after:invoke:local:invoke': this.cleanup.bind(this),
     }
