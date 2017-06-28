@@ -88,7 +88,16 @@ class ServerlessPlugin {
 
     // include node_modules into build
     if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
-      fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+      try {
+        fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+      } catch(error) {
+        // copy the folder when symlink failed
+        if(error.errno == -4048 && error.code == 'EPERM') {
+          fs.copySync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')));
+        } else {
+          throw error;
+        }
+      }
     }
 
     // include any "extras" from the "include" section
