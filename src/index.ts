@@ -3,6 +3,7 @@ import * as fs from 'fs-p'
 import * as _ from 'lodash'
 import * as globby from 'globby'
 
+import { DeployBuilder } from './deploy-builder'
 import { ServerlessOptions, ServerlessInstance, ServerlessFunction } from './types'
 import * as typescript from './typescript'
 
@@ -11,7 +12,6 @@ const serverlessFolder = '.serverless'
 const buildFolder = '.build'
 
 class ServerlessPlugin {
-
   private originalServicePath: string
   private originalFunctions: { [key: string]: ServerlessFunction } | {}
 
@@ -19,6 +19,8 @@ class ServerlessPlugin {
   options: ServerlessOptions
   commands: { [key: string]: any }
   hooks: { [key: string]: Function }
+
+  private deployBuilder: DeployBuilder
 
   constructor(serverless: ServerlessInstance, options: ServerlessOptions) {
     this.serverless = serverless
@@ -56,6 +58,8 @@ class ServerlessPlugin {
         },
       },
     }
+
+    this.deployBuilder = new DeployBuilder()
   }
 
   async beforeCreateDeploymentArtifacts(type: string): Promise<void> {
@@ -86,19 +90,7 @@ class ServerlessPlugin {
 
     await typescript.run(tsFileNames, tsconfig)
 
-    // include node_modules into build
-    if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
-      try {
-        fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
-      } catch(error) {
-        // copy the folder when symlink failed
-        if(error.errno == -4048 && error.code == 'EPERM') {
-          fs.copySync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')));
-        } else {
-          throw error;
-        }
-      }
-    }
+    this.deployBuilder.build(buildFolder)
 
     // include any "extras" from the "include" section
     if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0) {
