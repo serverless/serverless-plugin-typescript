@@ -91,6 +91,11 @@ class ServerlessPlugin {
       fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
     }
 
+    // include package.json into build so Serverless can exlcude devDeps during packaging
+    if (!fs.existsSync(path.resolve(path.join(buildFolder, 'package.json')))) {
+      fs.symlinkSync(path.resolve('package.json'), path.resolve(path.join(buildFolder, 'package.json')))
+    }
+
     // include any "extras" from the "include" section
     if (this.serverless.service.package.include && this.serverless.service.package.include.length > 0) {
       const files = await globby(this.serverless.service.package.include)
