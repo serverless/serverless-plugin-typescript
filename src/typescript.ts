@@ -30,6 +30,7 @@ export function extractFileNames(functions: { [key: string]: ServerlessFunction 
 }
 
 export async function run(fileNames: string[], options: ts.CompilerOptions): Promise<string[]> {
+  options.listEmittedFiles = true
   const program = ts.createProgram(fileNames, options)
 
   const emitResult = program.emit()
@@ -49,10 +50,29 @@ export async function run(fileNames: string[], options: ts.CompilerOptions): Pro
     throw new Error('Typescript compilation failed')
   }
 
-  return fileNames.map(f => f.replace(/\.ts$/, '.js'))
+  return emitResult.emittedFiles.filter(filename => filename.endsWith('.js'))
 }
 
-export function getTypescriptConfig(cwd: string): ts.CompilerOptions {
+/*
+ * based on rootFileNames returns list of all related (e.g. imported) source files
+ */
+export function getSourceFiles(
+  rootFileNames: string[],
+  options: ts.CompilerOptions
+): string[] {
+  const program = ts.createProgram(rootFileNames, options)
+  const programmFiles = program.getSourceFiles()
+    .map(file => file.fileName)
+    .filter(file => {
+      return file.split(path.sep).indexOf('node_modules') < 0
+    })
+  return programmFiles
+}
+
+export function getTypescriptConfig(
+  cwd: string,
+  logger?: { log: (str: string) => void }
+): ts.CompilerOptions {
   const configFilePath = path.join(cwd, 'tsconfig.json')
 
   if (fs.existsSync(configFilePath)) {
@@ -68,7 +88,12 @@ export function getTypescriptConfig(cwd: string): ts.CompilerOptions {
       throw new Error(JSON.stringify(configParseResult.errors))
     }
 
-    console.log(`Using local tsconfig.json`)
+    if (logger) {
+      logger.log(`Using local tsconfig.json`)
+    }
+
+    // disallow overrriding rootDir
+    configParseResult.options.rootDir = './'
 
     return configParseResult.options
   }

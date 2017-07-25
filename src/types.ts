@@ -10,10 +10,12 @@ export interface ServerlessInstance {
     package: ServerlessPackage
     getFunction: (name: string) => any
   }
+  pluginManager: PluginManager
 }
 
 export interface ServerlessOptions {
   function?: string
+  watch?: boolean
   extraServicePath?: string
 }
 
@@ -26,4 +28,9 @@ export interface ServerlessPackage {
   include: string[]
   exclude: string[]
   artifact?: string
+  individually?: boolean
+}
+
+export interface PluginManager {
+  spawn(command: string): Promise<void>
 }
