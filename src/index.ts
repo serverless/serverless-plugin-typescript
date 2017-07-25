@@ -161,7 +161,7 @@ export class ServerlessPlugin {
     }
   }
 
-  async cleanup(): Promise<void> {
+  async moveArtifacts(): Promise<void> {
     await fs.copy(
       path.join(this.originalServicePath, buildFolder, serverlessFolder),
       path.join(this.originalServicePath, serverlessFolder)
@@ -170,12 +170,35 @@ export class ServerlessPlugin {
     if (this.options.function) {
       const fn = this.serverless.service.functions[this.options.function]
       const basename = path.basename(fn.package.artifact)
-      fn.package.artifact =  path.join(this.originalServicePath, serverlessFolder, basename)
-    } else {
-      const basename = path.basename(this.serverless.service.package.artifact)
-      this.serverless.service.package.artifact = path.join(this.originalServicePath, serverlessFolder, basename)
+      fn.package.artifact =  path.join(
+        this.originalServicePath,
+        serverlessFolder,
+        path.basename(fn.package.artifact)
+      )
+      return
     }
 
+    if (this.serverless.service.package.individually) {
+      const functionNames = this.serverless.service.getAllFunctions()
+      functionNames.forEach(name => {
+        this.serverless.service.functions[name].package.artifact = path.join(
+          this.originalServicePath,
+          serverlessFolder,
+          path.basename(this.serverless.service.functions[name].package.artifact)
+        )
+      })
+      return
+    }
+
+    this.serverless.service.package.artifact = path.join(
+      this.originalServicePath,
+      serverlessFolder,
+      path.basename(this.serverless.service.package.artifact)
+    )
+  }
+
+  async cleanup(): Promise<void> {
+    await this.moveArtifacts()
     // Restore service path
     this.serverless.config.servicePath = this.originalServicePath
     // Remove temp build folder

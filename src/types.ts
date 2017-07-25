@@ -8,7 +8,7 @@ export interface ServerlessInstance {
   service: {
     functions: { [key: string]: ServerlessFunction }
     package: ServerlessPackage
-    getFunction: (name: string) => any
+    getAllFunctions: () => string[]
   }
   pluginManager: PluginManager
 }

@@ -96,7 +96,7 @@ export function getTypescriptConfig(
     if (path.resolve(configParseResult.options.rootDir) !== path.resolve(cwd) && logger) {
       logger.log('Warning: "rootDir" from local tsconfig.json is overriden')
     }
-    configParseResult.options.rootDir = cwd;
+    configParseResult.options.rootDir = cwd
 
     return configParseResult.options
   }
