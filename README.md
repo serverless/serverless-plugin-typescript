@@ -8,6 +8,9 @@ Serverless plugin for zero-config Typescript support
 
 * Zero-config: Works out of the box without the need to install any other compiler or plugins
 * Supports ES2015 syntax + features (`export`, `import`, `async`, `await`, `Promise`, ...)
+* Supports `sls package`, `sls deploy` and `sls deploy function`
+* Supports `sls invoke local` + `--watch` mode
+* Integrates nicely with [`serverless-offline`](https://github.com/dherault/serverless-offline)
 
 ## Install
 
