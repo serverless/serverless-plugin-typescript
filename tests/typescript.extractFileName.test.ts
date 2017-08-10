@@ -1,5 +1,6 @@
 import {extractFileNames} from '../src/typescript'
 import {ServerlessFunction} from '../src/types'
+import * as path from 'path'
 
 const functions: { [key: string]: ServerlessFunction } = {
     hello: {
@@ -26,9 +27,9 @@ const functions: { [key: string]: ServerlessFunction } = {
 }
 
 describe('extractFileName', () => {
-    it('get function filenames from serverless service', () => {
+    it('get function filenames from serverless service for a non-google provider', () => {
         expect(
-            extractFileNames(functions),
+            extractFileNames(process.cwd(), 'aws', functions),
         ).toEqual(
             [
                 'my-folder/hello.ts',
@@ -37,5 +38,14 @@ describe('extractFileName', () => {
             ],
         )
     })
-})
 
+    it('get function filename from serverless service for a google provider', () => {
+        expect(
+            extractFileNames(path.join(process.cwd(), 'example'), 'google')
+        ).toEqual(
+            [
+                'handler.ts'
+            ]
+        )
+    })
+})
