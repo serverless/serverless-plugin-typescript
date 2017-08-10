@@ -65,7 +65,7 @@ export class ServerlessPlugin {
   }
 
   get rootFileNames() {
-    return typescript.extractFileNames(this.originalServicePath)
+    return typescript.extractFileNames(this.originalServicePath, this.serverless.service.provider.name, this.functions)
   }
 
   prepare() {
@@ -118,7 +118,6 @@ export class ServerlessPlugin {
       this.serverless.config.servicePath = path.join(this.originalServicePath, buildFolder)
     }
 
-    const tsFileNames = typescript.extractFileNames(this.originalServicePath, this.serverless.service.provider.name, this.functions)
     const tsconfig = typescript.getTypescriptConfig(
       this.originalServicePath,
       this.isWatching ? null : this.serverless.cli
@@ -126,7 +125,7 @@ export class ServerlessPlugin {
 
     tsconfig.outDir = buildFolder
 
-    const emitedFiles = await typescript.run(tsFileNames, tsconfig)
+    const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
     await this.copyExtras()
     return emitedFiles
   }
