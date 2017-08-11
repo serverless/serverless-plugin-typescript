@@ -6,6 +6,9 @@ export interface ServerlessInstance {
     servicePath: string
   }
   service: {
+    provider: {
+      name: string
+    }
     functions: { [key: string]: ServerlessFunction }
     package: ServerlessPackage
     getAllFunctions: () => string[]

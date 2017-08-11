@@ -1,4 +1,5 @@
 {
+  "main": "handler.js",
   "dependencies": {
     "lodash": "^4.17.4"
   },

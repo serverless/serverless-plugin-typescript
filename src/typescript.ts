@@ -18,7 +18,35 @@ export function makeDefaultTypescriptConfig() {
   return defaultTypescriptConfig
 }
 
-export function extractFileNames(functions: { [key: string]: ServerlessFunction }): string[] {
+export function extractFileNames(cwd: string, provider: string, functions?: { [key: string]: ServerlessFunction }): string[] {
+
+  // The Google provider will use the entrypoint not from the definition of the
+  // handler function, but instead from the package.json:main field, or via a
+  // index.js file. This check reads the current package.json in the same way
+  // that we already read the tsconfig.json file, by inspecting the current
+  // working directory. If the packageFile does not contain a valid main, then
+  // it instead selects the index.js file.
+  if (provider === 'google') {
+    const packageFilePath = path.join(cwd, 'package.json')
+    if (fs.existsSync(packageFilePath)) {
+
+      // Load in the package.json file.
+      const packageFile = JSON.parse(fs.readFileSync(packageFilePath).toString())
+
+      // Either grab the package.json:main field, or use the index.ts file.
+      // (This will be transpiled to index.js).
+      const main = packageFile.main ? packageFile.main.replace(/\.js$/, '.ts') : 'index.ts'
+
+      // Check that the file indeed exists.
+      if (!fs.existsSync(path.join(cwd, main))) {
+        console.log(`Cannot locate entrypoint, ${main} not found`)
+        throw new Error('Typescript compilation failed')
+      }
+
+      return [main]
+    }
+  }
+
   return _.values(functions)
     .map(fn => fn.handler)
     .map(h => {
