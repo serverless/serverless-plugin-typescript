@@ -35,14 +35,16 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 ```json
 {
-  "preserveConstEnums": true,
-  "strictNullChecks": true,
-  "sourceMap": true,
-  "target": "es5",
-  "outDir": ".build",
-  "moduleResolution": "node",
-  "lib": ["es2015"],
-  "rootDir": "./"
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": ".build",
+    "moduleResolution": "node",
+    "lib": ["es2015"],
+    "rootDir": "./"
+  }
 }
 ```
 
