@@ -13,7 +13,7 @@ import { watchFiles } from './watchFiles'
 const serverlessFolder = '.serverless'
 const buildFolder = '.build'
 
-export class ServerlessPlugin {
+export class TypeScriptPlugin {
 
   private originalServicePath: string
   private isWatching: boolean
@@ -206,4 +206,4 @@ export class ServerlessPlugin {
 
 }
 
-module.exports = ServerlessPlugin
+module.exports = TypeScriptPlugin
