@@ -134,6 +134,19 @@ To run your compiled functions locally you can:
 $ serverless invoke local --function <function-name>
 ```
 
+### Enabling source-maps
+
+You can easily enable support for source-maps (making stacktraces easier to read) by installing and using the following plugin:
+
+```sh
+yarn add --dev source-map-support
+```
+
+```ts
+// inside of your function
+import 'source-map-support/register'
+```
+
 Options are:
 
 - `--function` or `-f` (required) is the name of the function to run
