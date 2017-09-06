@@ -134,6 +134,13 @@ To run your compiled functions locally you can:
 $ serverless invoke local --function <function-name>
 ```
 
+Options are:
+
+- `--function` or `-f` (required) is the name of the function to run
+- `--watch` - recompile and run a function locally on source changes
+- `--path` or `-p` (optional) path to JSON or YAML file holding input data
+- `--data` or `-d` (optional) input data
+
 ### Enabling source-maps
 
 You can easily enable support for source-maps (making stacktraces easier to read) by installing and using the following plugin:
@@ -146,13 +153,6 @@ yarn add --dev source-map-support
 // inside of your function
 import 'source-map-support/register'
 ```
-
-Options are:
-
-- `--function` or `-f` (required) is the name of the function to run
-- `--watch` - recompile and run a function locally on source changes
-- `--path` or `-p` (optional) path to JSON or YAML file holding input data
-- `--data` or `-d` (optional) input data
 
 ## Help & Community [![Slack Status](https://slack.graph.cool/badge.svg)](https://slack.graph.cool)
 
