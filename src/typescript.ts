@@ -1,5 +1,5 @@
 import * as ts from 'typescript'
-import * as fs from 'fs-p'
+import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import { ServerlessFunction } from './types'
 import * as path from 'path'
