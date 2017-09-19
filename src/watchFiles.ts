@@ -9,9 +9,9 @@ export function watchFiles(
   cb: () => void
 ) {
   const tsConfig = typescript.getTypescriptConfig(originalServicePath)
-  let watchFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
+  let watchedFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
 
-  watchFiles.forEach(fileName => {
+  watchedFiles.forEach(fileName => {
     watchFile(fileName, { persistent: true, interval: 250 }, watchCallback)
   })
 
@@ -25,18 +25,18 @@ export function watchFiles(
 
     // use can reference not watched yet file or remove reference to already watched
     const newWatchFiles =  typescript.getSourceFiles(rootFileNames, tsConfig)
-    watchFiles.forEach(fileName => {
+    watchedFiles.forEach(fileName => {
       if (newWatchFiles.indexOf(fileName) < 0) {
         unwatchFile(fileName, watchCallback)
       }
     })
 
     newWatchFiles.forEach(fileName => {
-      if (watchFiles.indexOf(fileName) < 0) {
+      if (watchedFiles.indexOf(fileName) < 0) {
         watchFile(fileName, { persistent: true, interval: 250 }, watchCallback)
       }
     })
 
-    watchFiles = newWatchFiles
+    watchedFiles = newWatchFiles
   }
 }
