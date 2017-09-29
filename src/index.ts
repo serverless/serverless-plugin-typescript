@@ -77,7 +77,7 @@ export class TypeScriptPlugin {
         exclude: [],
         include: [],
       }
-      fn.package.exclude = _.uniq([...fn.package.exclude, 'node_modules/serverless-plugin-typescript'])
+      fn.package.exclude = _.uniq([...fn.package.exclude || [], 'node_modules/serverless-plugin-typescript'])
     }
   }
 
