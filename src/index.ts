@@ -77,6 +77,7 @@ export class TypeScriptPlugin {
         exclude: [],
         include: [],
       }
+      // Add plugin to excluded packages or an empty array if exclude is undefined
       fn.package.exclude = _.uniq([...fn.package.exclude || [], 'node_modules/serverless-plugin-typescript'])
     }
   }
