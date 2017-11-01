@@ -89,7 +89,7 @@ The normal Serverless deploy procedure will automatically compile with Typescrip
 
 ### Usage with serverless-offline
 
-The plugin integrates very well with [serverless-offline][https://github.com/dherault/serverless-offline] to
+The plugin integrates very well with [serverless-offline](https://github.com/dherault/serverless-offline) to
 simulate AWS Lambda and AWS API Gateway locally.
 
 Add the plugins to your `serverless.yml` file and make sure that `serverless-plugin-typescript`
