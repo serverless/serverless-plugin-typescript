@@ -153,6 +153,16 @@ yarn add --dev source-map-support
 import 'source-map-support/register'
 ```
 
+If you are using webpack (most likely). Add `devtool: 'source-map'` to `webpack.config.js`:
+```js
+module.exports = {
+  .... snip ....
+  devtool: 'source-map',
+  .... snip ....
+
+}
+```
+
 ## Help & Community [![Slack Status](https://slack.graph.cool/badge.svg)](https://slack.graph.cool)
 
 Join our [Slack community](http://slack.graph.cool/) if you run into issues or have questions. We love talking to you!
