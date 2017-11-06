@@ -28,6 +28,9 @@ export class TypeScriptPlugin {
     this.options = options
 
     this.hooks = {
+      'before:run:run': async () => {
+        await this.compileTs()
+      },
       'before:offline:start': async () => {
         await this.compileTs()
         this.watchAll()
