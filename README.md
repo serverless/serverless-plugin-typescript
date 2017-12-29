@@ -1,5 +1,5 @@
 # serverless-plugin-typescript
-[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![CircleCI](https://circleci.com/gh/graphcool/serverless-plugin-typescript.svg?style=shield)](https://circleci.com/gh/graphcool/serverless-plugin-typescript) [![Greenkeeper badge](https://badges.greenkeeper.io/graphcool/serverless-plugin-typescript.svg)](https://greenkeeper.io/)
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![CircleCI](https://circleci.com/gh/graphcool/serverless-plugin-typescript.svg?style=shield)](https://circleci.com/gh/graphcool/serverless-plugin-typescript)
 
 Serverless plugin for zero-config Typescript support
 
