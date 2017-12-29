@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/lodash@^4.14.63":
-  version "4.14.63"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.63.tgz#5ac475f55bfdc62bc88c4239dbc482f2f3bead93"
+"@types/lodash@4.14.91":
+  version "4.14.91"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.91.tgz#794611b28056d16b5436059c6d800b39d573cd3a"
 
 fs-extra@^2.0.0:
   version "2.1.2"
@@ -33,9 +33,9 @@ lodash@^4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-serverless-plugin-typescript@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/serverless-plugin-typescript/-/serverless-plugin-typescript-0.1.2.tgz#ca0deeb9f755178df7784454b5b0164dad6b7de6"
+serverless-plugin-typescript@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-typescript/-/serverless-plugin-typescript-0.1.10.tgz#5ee23f77f3770481d7f7dae69d944d03ddd648fb"
   dependencies:
     fs-p "^2.0.0"
     lodash "^4.17.4"

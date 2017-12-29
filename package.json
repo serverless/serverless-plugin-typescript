@@ -27,12 +27,12 @@
   ],
   "devDependencies": {
     "@types/fs-extra": "4.0.7",
-    "@types/jest": "^21.1.1",
-    "@types/lodash": "^4.14.62",
-    "jest": "^22.0.0",
-    "mock-fs": "^4.3.0",
-    "ts-jest": "^22.0.0",
-    "tslint": "^5.1.0"
+    "@types/jest": "21.1.10",
+    "@types/lodash": "4.14.91",
+    "jest": "22.0.4",
+    "mock-fs": "4.4.2",
+    "ts-jest": "22.0.0",
+    "tslint": "5.8.0"
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
