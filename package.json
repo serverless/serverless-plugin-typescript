@@ -27,7 +27,7 @@
   ],
   "devDependencies": {
     "@types/fs-extra": "4.0.7",
-    "@types/jest": "^21.1.1",
+    "@types/jest": "^22.0.0",
     "@types/lodash": "^4.14.62",
     "jest": "^22.0.0",
     "mock-fs": "^4.3.0",
