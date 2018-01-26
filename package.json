@@ -38,7 +38,7 @@
     "fs-extra": "^5.0.0",
     "globby": "^7.0.0",
     "lodash": "^4.17.4",
-    "typescript": "^2.2.2"
+    "typescript": "^2.0.0"
   },
   "jest": {
     "transform": {
