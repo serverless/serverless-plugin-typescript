@@ -4,21 +4,21 @@ import * as path from 'path'
 
 const functions: { [key: string]: ServerlessFunction } = {
     hello: {
-        handler: 'my-folder/hello.handler',
+        handler: 'tests/assets/hello.handler',
         package: {
             include: [],
             exclude: []
         }
     },
     world: {
-        handler: 'my-folder/my-subfolder/world.handler',
+        handler: 'tests/assets/world.handler',
         package: {
             include: [],
             exclude: []
         }
     },
-    create: {
-        handler: 'create.create',
+    js: {
+        handler: 'tests/assets/jsfile.create',
         package: {
             include: [],
             exclude: []
@@ -32,9 +32,9 @@ describe('extractFileName', () => {
             extractFileNames(process.cwd(), 'aws', functions),
         ).toEqual(
             [
-                'my-folder/hello.ts',
-                'my-folder/my-subfolder/world.ts',
-                'create.ts',
+                'tests/assets/hello.ts',
+                'tests/assets/world.ts',
+                'tests/assets/jsfile.js',
             ],
         )
     })

@@ -9,6 +9,7 @@ export function makeDefaultTypescriptConfig() {
     preserveConstEnums: true,
     strictNullChecks: true,
     sourceMap: true,
+    allowJs: true,
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     lib: ['lib.es2015.d.ts'],
@@ -53,7 +54,21 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
       const fnName = _.last(h.split('.'))
       const fnNameLastAppearanceIndex = h.lastIndexOf(fnName)
       // replace only last instance to allow the same name for file and handler
-      return h.substring(0, fnNameLastAppearanceIndex) + 'ts'
+      const fileName = h.substring(0, fnNameLastAppearanceIndex)
+
+      // Check if the .ts files exists. If so return that to watch
+      if (fs.existsSync(path.join(cwd, fileName + 'ts'))) {
+        return fileName + 'ts'
+      }
+
+      // Check if the .js files exists. If so return that to watch
+      if (fs.existsSync(path.join(cwd, fileName + 'js'))) {
+        return fileName + 'js'
+      }
+
+      // Can't find the files. Watch will have an exception anyway. So throw one with error.
+      console.log(`Cannot locate handler - ${fileName} not found`)
+      throw new Error('Typescript compilation failed. Please ensure handlers exists with ext .ts or .js')
     })
 }
 
