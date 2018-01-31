@@ -91,9 +91,6 @@ export function getSourceFiles(
   const program = ts.createProgram(rootFileNames, options)
   const programmFiles = program.getSourceFiles()
     .map(file => file.fileName)
-    .filter(file => {
-      return file.split(path.sep).indexOf('node_modules') < 0
-    })
   return programmFiles
 }
 
