@@ -47,6 +47,28 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
     }
   }
 
+  // With OpenWhisk not all functions may actually have a code entrypoint - some may be "meta" functions / actions,
+  // most notably the "sequence" functions that are combinations of other functions. These may not actually
+  // have any code associated with them, aka no handler
+  if (provider === "openwhisk") {
+    return (
+      _.values(functions)
+        //If this function is a sequence and doesn't have a handler defined we'll filter these out
+        .filter(fn => {
+          if (fn.sequence && !fn.handler) {
+            return null;
+          }
+          return true;
+        })
+        .map(fn => {
+          const fnName = _.last(fn.handler.split("."));
+          const fnNameLastAppearanceIndex = fn.handler.lastIndexOf(fnName);
+          // replace only last instance to allow the same name for file and handler
+          return fn.handler.substring(0, fnNameLastAppearanceIndex) + "ts";
+        })
+    );
+  }
+
   return _.values(functions)
     .map(fn => fn.handler)
     .map(h => {
@@ -69,7 +91,7 @@ export async function run(fileNames: string[], options: ts.CompilerOptions): Pro
     if (!diagnostic.file) {
       console.log(diagnostic)
     }
-    const {line, character} = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
+    const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
     const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
     console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`)
   })

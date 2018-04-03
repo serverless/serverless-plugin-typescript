@@ -25,6 +25,7 @@ export interface ServerlessOptions {
 export interface ServerlessFunction {
   handler: string
   package: ServerlessPackage
+  sequence?: string[]
 }
 
 export interface ServerlessPackage {
