@@ -56,7 +56,7 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
         //If this function is a sequence and doesn't have a handler defined we'll filter these out
         .filter(fn => {
           if (fn.sequence && !fn.handler) {
-            return null;
+            return false;
           }
           return true;
         })
