@@ -12,7 +12,7 @@ const isMissingSymlinkPermission = (error: SymlinkException): boolean => {
 
 const copyIfMissingSymlinkPermission =
   (srcpath: string, dstpath: string, error: SymlinkException) => {
-    if (this.isMissingSymlinkPermission(error)) {
+    if (isMissingSymlinkPermission(error)) {
       fs.copySync(srcpath, dstpath)
     } else {
       throw error
@@ -23,6 +23,6 @@ export const symlink = (srcpath: string, dstpath: string, type?: string) => {
   try {
     fs.symlinkSync(srcpath, dstpath, type)
   } catch (error) {
-    this.copyIfMissingSymlinkPermission(srcpath, dstpath, error)
+    copyIfMissingSymlinkPermission(srcpath, dstpath, error)
   }
 }
