@@ -8,6 +8,7 @@ import { ServerlessOptions, ServerlessInstance, ServerlessFunction } from './typ
 import * as typescript from './typescript'
 
 import { watchFiles } from './watchFiles'
+import { symlink } from './utils'
 
 // Folders
 const serverlessFolder = '.serverless'
@@ -138,12 +139,12 @@ export class TypeScriptPlugin {
   async copyExtras() {
     // include node_modules into build
     if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
-      fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+      symlink(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
     }
 
     // include package.json into build so Serverless can exlcude devDeps during packaging
     if (!fs.existsSync(path.resolve(path.join(buildFolder, 'package.json')))) {
-      fs.symlinkSync(path.resolve('package.json'), path.resolve(path.join(buildFolder, 'package.json')))
+      symlink(path.resolve('package.json'), path.resolve(path.join(buildFolder, 'package.json')))
     }
 
     // include any "extras" from the "include" section
