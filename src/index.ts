@@ -39,9 +39,13 @@ export class TypeScriptPlugin {
         await this.compileTs()
         this.watchAll()
       },
-      'before:package:createDeploymentArtifacts': this.compileTs.bind(this),
+      'before:package:createDeploymentArtifacts': async () => {
+        await this.compileTs(true)
+      },
       'after:package:createDeploymentArtifacts': this.cleanup.bind(this),
-      'before:deploy:function:packageFunction': this.compileTs.bind(this),
+      'before:deploy:function:packageFunction': async () => {
+        await this.compileTs(true)
+      },
       'after:deploy:function:packageFunction': this.cleanup.bind(this),
       'before:invoke:local:invoke': async () => {
         const emitedFiles = await this.compileTs()
@@ -111,7 +115,7 @@ export class TypeScriptPlugin {
     })
   }
 
-  async compileTs(): Promise<string[]> {
+  async compileTs(packaging = false): Promise<string[]> {
     this.prepare()
     this.serverless.cli.log('Compiling with Typescript...')
 
@@ -130,15 +134,22 @@ export class TypeScriptPlugin {
     tsconfig.outDir = buildFolder
 
     const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
-    await this.copyExtras()
+    await this.copyExtras(packaging)
     this.serverless.cli.log('Typescript compiled.')
     return emitedFiles
   }
 
-  async copyExtras() {
+  async copyExtras(packaging = false) {
     // include node_modules into build
-    if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
-      fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+    if (packaging) {
+      if (fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
+        fs.unlinkSync(path.resolve(path.join(buildFolder, 'node_modules')))
+      }
+      fs.copySync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+    } else {
+      if (!fs.existsSync(path.resolve(path.join(buildFolder, 'node_modules')))) {
+        fs.symlinkSync(path.resolve('node_modules'), path.resolve(path.join(buildFolder, 'node_modules')))
+      }
     }
 
     // include package.json into build so Serverless can exlcude devDeps during packaging
