@@ -1,7 +1,19 @@
 # serverless-plugin-typescript
-[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![Build Status](https://travis-ci.org/graphcool/serverless-plugin-typescript.svg?branch=master)](https://travis-ci.org/graphcool/serverless-plugin-typescript)
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 
 Serverless plugin for zero-config Typescript support
+
+## HEWMEN Update
+Original NPM Module: npmjs.com/package/serverless-plugin-typescript
+
+This version of `serverless-typescript-plugin` fixes symbolic link issues with Windows OS resulting in the following errors:
+
+> 1) EPERM: operation not permitted, scandir...
+> 2) EPERM: operation not permitted, symlink...
+
+When attaching the "node_modules" folder to the build
+
+Created PR for original plugin: github.com/prismagraphql/serverless-plugin-typescript/pull/103
 
 ## Features
 
@@ -14,14 +26,18 @@ Serverless plugin for zero-config Typescript support
 ## Install
 
 ```sh
-yarn add --dev serverless-plugin-typescript
+yarn add --dev @hewmen/serverless-plugin-typescript
+```
+or
+```
+npm install --save-dev @hewmen/serverless-plugin-typescript
 ```
 
 Add the following plugin to your `serverless.yml`:
 
 ```yaml
 plugins:
-  - serverless-plugin-typescript
+  - '@hewmen/serverless-plugin-typescript'
 ```
 
 ## Configure
@@ -92,12 +108,12 @@ The normal Serverless deploy procedure will automatically compile with Typescrip
 The plugin integrates very well with [serverless-offline](https://github.com/dherault/serverless-offline) to
 simulate AWS Lambda and AWS API Gateway locally.
 
-Add the plugins to your `serverless.yml` file and make sure that `serverless-plugin-typescript`
+Add the plugins to your `serverless.yml` file and make sure that `@hewmen/serverless-plugin-typescript`
 precedes `serverless-offline` as the order is important:
 ```yaml
   plugins:
     ...
-    - serverless-plugin-typescript
+    - '@hewmen/serverless-plugin-typescript'
     ...
     - serverless-offline
     ...
@@ -113,7 +129,7 @@ Configure your service the same as mentioned above, but additionally add the `se
 plugin as follows:
 ```yaml
   plugins:
-    - serverless-plugin-typescript
+    - '@hewmen/serverless-plugin-typescript'
     - serverless-dynamodb-local
     - serverless-offline
 ```
