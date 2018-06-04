@@ -4,7 +4,7 @@
 Serverless plugin for zero-config Typescript support
 
 ## HEWMEN Update
-Original NPM Module: npmjs.com/package/serverless-plugin-typescript
+Original NPM Module: http://www.npmjs.com/package/serverless-plugin-typescript
 
 This version of `serverless-typescript-plugin` fixes symbolic link issues with Windows OS resulting in the following errors:
 
@@ -13,7 +13,7 @@ This version of `serverless-typescript-plugin` fixes symbolic link issues with W
 
 When attaching the "node_modules" folder to the build
 
-Created PR for original plugin: github.com/prismagraphql/serverless-plugin-typescript/pull/103
+Created PR for original plugin: http://www.github.com/prismagraphql/serverless-plugin-typescript/pull/103
 
 ## Features
 

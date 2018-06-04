@@ -1,6 +1,6 @@
 {
   "name": "@hewmen/serverless-plugin-typescript",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "main": "dist/src/index.js",
   "files": [
     "dist",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/graphcool/serverless-plugin-typescript.git"
+    "url": "git+https://github.com/hewmen/serverless-plugin-typescript.git"
   },
   "keywords": [
     "serverless",
