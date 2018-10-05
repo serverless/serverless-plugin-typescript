@@ -39,6 +39,8 @@ export class TypeScriptPlugin {
         await this.compileTs()
         this.watchAll()
       },
+      'before:simulate:lambda:start': this.compileTs.bind(this),
+      'before:simulate:apigateway:initialize': this.compileTs.bind(this),
       'before:package:createDeploymentArtifacts': this.compileTs.bind(this),
       'after:package:createDeploymentArtifacts': this.cleanup.bind(this),
       'before:deploy:function:packageFunction': this.compileTs.bind(this),
