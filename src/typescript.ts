@@ -104,12 +104,12 @@ export function getSourceFiles(
   options: ts.CompilerOptions
 ): string[] {
   const program = ts.createProgram(rootFileNames, options)
-  const programmFiles = program.getSourceFiles()
+  const programFiles = program.getSourceFiles()
     .map(file => file.fileName)
     .filter(file => {
       return file.split(path.sep).indexOf('node_modules') < 0
     })
-  return programmFiles
+  return programFiles
 }
 
 export function getTypescriptConfig(
@@ -145,4 +145,8 @@ export function getTypescriptConfig(
   }
 
   return makeDefaultTypescriptConfig()
+}
+
+export function getTypescriptVersion(): string {
+  return ts.version
 }

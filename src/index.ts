@@ -112,8 +112,10 @@ export class TypeScriptPlugin {
   }
 
   async compileTs(): Promise<string[]> {
+    const typescriptVersion = typescript.getTypescriptVersion()
+
     this.prepare()
-    this.serverless.cli.log('Compiling with Typescript...')
+    this.serverless.cli.log(`Compiling with Typescript (version: ${typescriptVersion})...`)
 
     if (!this.originalServicePath) {
       // Save original service path and functions
