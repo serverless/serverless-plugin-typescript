@@ -191,6 +191,14 @@ export class TypeScriptPlugin {
           path.basename(this.serverless.service.functions[name].package.artifact)
         )
       })
+      const layerNames = this.serverless.service.getAllLayers()
+      layerNames.forEach(name => {
+        this.serverless.service.layers[name].package.artifact = path.join(
+          this.originalServicePath,
+          serverlessFolder,
+          path.basename(this.serverless.service.layers[name].package.artifact)
+        )
+      })
       return
     }
 
