@@ -10,8 +10,10 @@ export interface ServerlessInstance {
       name: string
     }
     functions: { [key: string]: ServerlessFunction }
+    layers: { [key: string]: ServerlessLayer }
     package: ServerlessPackage
     getAllFunctions: () => string[]
+    getAllLayers: () => string[]
   }
   pluginManager: PluginManager
 }
@@ -20,6 +22,11 @@ export interface ServerlessOptions {
   function?: string
   watch?: boolean
   extraServicePath?: string
+}
+
+export interface ServerlessLayer {
+  handler: string
+  package: ServerlessPackage
 }
 
 export interface ServerlessFunction {
