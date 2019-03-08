@@ -32,13 +32,13 @@
     "jest": "22.0.4",
     "mock-fs": "4.4.2",
     "ts-jest": "22.0.1",
-    "tslint": "5.8.0"
+    "tslint": "5.8.0",
+    "typescript": "^2.2.2"
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
     "globby": "^7.0.0",
-    "lodash": "^4.17.4",
-    "typescript": "^2.2.2"
+    "lodash": "^4.17.4"
   },
   "jest": {
     "transform": {
@@ -50,5 +50,8 @@
       "tsx",
       "js"
     ]
+  },
+  "peerDependencies": {
+    "typescript": ">= 2.2.2"
   }
 }
