@@ -104,7 +104,7 @@ export function getTypescriptConfig(
 ): ts.CompilerOptions {
   let configFilePath = path.join(cwd, 'tsconfig.json')
 
-  if (serverless && serverless.service.custom.typeScript && serverless.service.custom.typeScript.tsconfigFilePath) {
+  if (serverless && serverless.service.custom && serverless.service.custom.typeScript && serverless.service.custom.typeScript.tsconfigFilePath) {
     configFilePath = path.join(cwd, serverless.service.custom.typeScript.tsconfigFilePath)
     if (!fs.existsSync(configFilePath)) {
       throw new Error(`Custom Typescript Config File not found at "${configFilePath}"`)
