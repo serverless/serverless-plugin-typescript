@@ -8,7 +8,12 @@ export interface ServerlessInstance {
   service: {
     provider: {
       name: string
-    }
+    },
+    custom: {
+      typeScript: {
+        tsconfigFilePath: string | undefined
+      }
+    },
     functions: { [key: string]: ServerlessFunction }
     package: ServerlessPackage
     getAllFunctions: () => string[]

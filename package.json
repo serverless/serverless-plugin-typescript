@@ -49,6 +49,7 @@
       "ts",
       "tsx",
       "js"
-    ]
+    ],
+    "testURL": "http://localhost/"
   }
 }
