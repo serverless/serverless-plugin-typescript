@@ -31,7 +31,7 @@
     "@types/lodash": "4.14.91",
     "jest": "22.0.4",
     "mock-fs": "4.4.2",
-    "ts-jest": "22.0.1",
+    "ts-jest": "24.0.1",
     "tslint": "5.8.0"
   },
   "dependencies": {
