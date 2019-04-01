@@ -1,6 +1,7 @@
 {
   "name": "serverless-plugin-typescript",
   "version": "0.0.0-semantic-release",
+  "license": "MIT",
   "main": "dist/src/index.js",
   "files": [
     "dist",
