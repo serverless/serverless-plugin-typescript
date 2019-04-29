@@ -1,6 +1,7 @@
 {
   "name": "serverless-plugin-typescript",
   "version": "0.0.0-semantic-release",
+  "license": "MIT",
   "main": "dist/src/index.js",
   "files": [
     "dist",
@@ -10,14 +11,14 @@
   "scripts": {
     "prepublish": "npm run build",
     "precommit": "npm run test",
-    "build": "rm -rf dist && tsc",
+    "build": "rimraf dist && tsc",
     "pretest": "npm run lint",
     "test": "jest",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/graphcool/serverless-plugin-typescript.git"
+    "url": "git+https://github.com/prisma/serverless-plugin-typescript.git"
   },
   "keywords": [
     "serverless",
@@ -26,25 +27,27 @@
     "aws lambda"
   ],
   "devDependencies": {
-    "@types/fs-extra": "5.0.0",
-    "@types/jest": "22.0.1",
-    "@types/lodash": "4.14.91",
-    "jest": "22.0.4",
-    "mock-fs": "4.4.2",
-    "ts-jest": "22.0.1",
-    "tslint": "5.8.0"
+    "@types/fs-extra": "5.0.5",
+    "@types/jest": "24.0.11",
+    "@types/lodash": "4.14.123",
+    "jest": "24.5.0",
+    "mock-fs": "4.8.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "24.0.1",
+    "tslint": "5.14.0",
+    "typescript": "^3.4.1"
   },
   "dependencies": {
-    "fs-extra": "^5.0.0",
-    "globby": "^7.0.0",
-    "lodash": "^4.17.4",
-    "typescript": "^2.2.2"
+    "fs-extra": "^7.0.1",
+    "globby": "^9.2.0",
+    "lodash": "^4.17.11"
+  },
+  "peerDependencies": {
+    "typescript": ">=2.2.2"
   },
   "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "preset": "ts-jest",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
