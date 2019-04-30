@@ -202,6 +202,18 @@ export class TypeScriptPlugin {
       serverlessFolder,
       path.basename(this.serverless.service.package.artifact)
     )
+
+    this.serverless.service.getAllFunctions().forEach(name => {
+      if (this.serverless.service.functions[name].package.artifact) {
+        this.serverless.service.functions[name].package.artifact = path.join(
+          this.originalServicePath,
+          serverlessFolder,
+          path.basename(
+            this.serverless.service.functions[name].package.artifact
+          )
+        )
+      }
+    })
   }
 
   async cleanup(): Promise<void> {
