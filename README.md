@@ -35,6 +35,7 @@ The default `tsconfig.json` file used by the plugin looks like this:
 ```json
 {
   "compilerOptions": {
+    "noEmit": false,
     "preserveConstEnums": true,
     "strictNullChecks": true,
     "sourceMap": true,
@@ -47,7 +48,7 @@ The default `tsconfig.json` file used by the plugin looks like this:
 }
 ```
 
-> Note 1: The `outDir` and `rootDir` options cannot be overwritten.
+> Note 1: The `outDir`, `rootDir` and `noEmit` options cannot be overwritten.
 
 > Note 2: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 

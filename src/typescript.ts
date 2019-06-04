@@ -6,6 +6,7 @@ import * as path from 'path'
 
 export function makeDefaultTypescriptConfig() {
   const defaultTypescriptConfig: ts.CompilerOptions = {
+    noEmit: false,
     preserveConstEnums: true,
     strictNullChecks: true,
     sourceMap: true,
@@ -120,11 +121,17 @@ export function getTypescriptConfig(
       logger.log(`Using local tsconfig.json`)
     }
 
-    // disallow overrriding rootDir
+    // disallow overriding rootDir
     if (configParseResult.options.rootDir && path.resolve(configParseResult.options.rootDir) !== path.resolve(cwd) && logger) {
-      logger.log('Warning: "rootDir" from local tsconfig.json is overriden')
+      logger.log('Warning: "rootDir" from local tsconfig.json is overridden')
     }
     configParseResult.options.rootDir = cwd
+
+    // disallow overriding noEmit
+    if (configParseResult.options.noEmit !== false) {
+      logger.log('Warning: "noEmit" from local tsconfig.json is overridden')
+    }
+    configParseResult.options.noEmit = false
 
     return configParseResult.options
   }
