@@ -19,7 +19,8 @@
         "ban-types": false,
         "interface-name": false,
         "forin": false,
-        "no-empty-interface": false
+        "no-empty-interface": false,
+        "no-namespace": [true, "allow-declarations"]
     },
     "rulesDirectory": []
 }
