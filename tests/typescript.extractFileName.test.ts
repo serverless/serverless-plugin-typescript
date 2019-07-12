@@ -1,8 +1,7 @@
 import {extractFileNames} from '../src/typescript'
-import {ServerlessFunction} from '../src/types'
 import * as path from 'path'
 
-const functions: { [key: string]: ServerlessFunction } = {
+const functions: { [key: string]: Serverless.Function } = {
     hello: {
         handler: 'tests/assets/hello.handler',
         package: {
