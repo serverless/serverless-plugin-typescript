@@ -6,9 +6,10 @@ import { ServerlessOptions, ServerlessInstance, ServerlessFunction } from './typ
 export function watchFiles(
   rootFileNames: string[],
   originalServicePath: string,
+  serverless: ServerlessInstance,
   cb: () => void
 ) {
-  const tsConfig = typescript.getTypescriptConfig(originalServicePath)
+  const tsConfig = typescript.getTypescriptConfig(originalServicePath, serverless)
   let watchedFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
 
   watchedFiles.forEach(fileName => {
