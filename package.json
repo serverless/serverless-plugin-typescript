@@ -27,7 +27,7 @@
     "aws lambda"
   ],
   "devDependencies": {
-    "@types/fs-extra": "5.0.5",
+    "@types/fs-extra": "5.1.0",
     "@types/jest": "24.0.12",
     "@types/lodash": "4.14.123",
     "jest": "24.5.0",
