@@ -63,7 +63,7 @@ export class TypeScriptPlugin {
 
   get functions() {
     return this.options.function
-      ? { [this.options.function] : this.serverless.service.functions[this.options.function] }
+      ? { [this.options.function]: this.serverless.service.functions[this.options.function] }
       : this.serverless.service.functions
   }
 
@@ -177,7 +177,7 @@ export class TypeScriptPlugin {
     if (this.options.function) {
       const fn = this.serverless.service.functions[this.options.function]
       const basename = path.basename(fn.package.artifact)
-      fn.package.artifact =  path.join(
+      fn.package.artifact = path.join(
         this.originalServicePath,
         serverlessFolder,
         path.basename(fn.package.artifact)
@@ -196,6 +196,17 @@ export class TypeScriptPlugin {
       })
       return
     }
+
+    const allFunctions = this.serverless.service.getAllFunctions()
+    allFunctions.forEach(name => {
+      if (this.serverless.service.functions[name].package.artifact) {
+        this.serverless.service.functions[name].package.artifact = path.join(
+          this.originalServicePath,
+          serverlessFolder,
+          path.basename(this.serverless.service.functions[name].package.artifact)
+        )
+      }
+    })
 
     this.serverless.service.package.artifact = path.join(
       this.originalServicePath,
