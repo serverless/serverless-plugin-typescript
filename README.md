@@ -14,7 +14,9 @@ Serverless plugin for zero-config Typescript support
 ## Install
 
 ```sh
-yarn add --dev serverless-plugin-typescript
+yarn add --dev serverless-plugin-typescript typescript
+# or
+npm install -D serverless-plugin-typescript typescript
 ```
 
 Add the following plugin to your `serverless.yml`:
@@ -38,6 +40,7 @@ The default `tsconfig.json` file used by the plugin looks like this:
     "preserveConstEnums": true,
     "strictNullChecks": true,
     "sourceMap": true,
+    "allowJs": true,
     "target": "es5",
     "outDir": ".build",
     "moduleResolution": "node",

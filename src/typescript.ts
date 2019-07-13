@@ -1,7 +1,6 @@
 import * as ts from 'typescript'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import { ServerlessFunction } from './types'
 import * as path from 'path'
 
 export function makeDefaultTypescriptConfig() {
@@ -19,8 +18,7 @@ export function makeDefaultTypescriptConfig() {
   return defaultTypescriptConfig
 }
 
-export function extractFileNames(cwd: string, provider: string, functions?: { [key: string]: ServerlessFunction }): string[] {
-
+export function extractFileNames(cwd: string, provider: string, functions?: { [key: string]: Serverless.Function }): string[] {
   // The Google provider will use the entrypoint not from the definition of the
   // handler function, but instead from the package.json:main field, or via a
   // index.js file. This check reads the current package.json in the same way
