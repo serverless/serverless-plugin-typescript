@@ -131,7 +131,7 @@ export class TypeScriptPlugin {
     this.serverless.cli.log(`Watching typescript files...`)
 
     this.isWatching = true
-    watchFiles(this.rootFileNames, this.originalServicePath, this.compileTs)
+    watchFiles(this.rootFileNames, this.originalServicePath, this.compileTs.bind(this))
   }
 
   async compileTs(): Promise<string[]> {
