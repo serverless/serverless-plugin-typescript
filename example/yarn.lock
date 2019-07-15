@@ -639,9 +639,9 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-serverless-plugin-typescript@1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/serverless-plugin-typescript/-/serverless-plugin-typescript-1.1.7.tgz#a26bee076bf9b091c3be0e0fef17de551bf58079"
+serverless-plugin-typescript@1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-typescript/-/serverless-plugin-typescript-1.1.9.tgz#75348a93f3f5dae19aad7006d51a545618892028"
   dependencies:
     fs-extra "^7.0.1"
     globby "^9.2.0"

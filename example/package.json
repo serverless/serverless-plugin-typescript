@@ -6,6 +6,6 @@
   "devDependencies": {
     "@types/lodash": "4.14.91",
     "@types/node": "^11.13.0",
-    "serverless-plugin-typescript": "1.1.7"
+    "serverless-plugin-typescript": "1.1.9"
   }
 }
