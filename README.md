@@ -58,6 +58,22 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)
 
+### Disable the plugin
+
+
+You can disable plugin passing the following command line option to serverless:
+
+```yaml
+  --typescript-plugin [disabled|off|false]
+```
+
+Adding a typescriptPlugin section to the custom section of your serverless.yml to set default value if needed:
+
+```yaml
+custom:
+  typescriptPlugin:
+    enabled: false
+```
 
 ## Usage
 

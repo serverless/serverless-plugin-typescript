@@ -20,6 +20,10 @@ export class TypeScriptPlugin {
   constructor(serverless: Serverless.Instance, options: Serverless.Options) {
     this.serverless = serverless
     this.options = options
+    
+    if (!this.isEnabled()) {
+      return;
+    }
 
     this.hooks = {
       'before:run:run': async () => {
@@ -93,7 +97,21 @@ export class TypeScriptPlugin {
       this.originalServicePath,
       this.serverless.service.provider.name,
       this.functions
-    )
+      )
+    }
+
+  isEnabled() {
+    const cliOption = this.options['typescript-plugin'];
+    if (cliOption === 'disabled' || cliOption === 'off' || cliOption === 'false') {
+      return false;
+    }
+
+    const custom = this.serverless.service.custom;
+    if (custom && custom.typescriptPlugin && (!custom.typescriptPlugin.enabled || custom.typescriptPlugin.enabled.toString() === 'false')) {
+        return false;
+    }
+
+    return true;
   }
 
   prepare() {

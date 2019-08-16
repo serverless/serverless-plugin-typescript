@@ -12,6 +12,11 @@ declare namespace Serverless {
       provider: {
         name: string
       }
+      custom: {
+        typescriptPlugin: {
+          enabled: boolean
+        }
+      }
       functions: {
         [key: string]: Serverless.Function
       }
