@@ -4,7 +4,7 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.91",
+    "@types/lodash": "4.14.138",
     "@types/node": "^11.13.0",
     "serverless-plugin-typescript": "1.1.7"
   }
