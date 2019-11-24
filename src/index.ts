@@ -89,11 +89,11 @@ export class TypeScriptPlugin {
   }
 
   get rootFileNames() {
-    return typescript.extractFileNames(
+    return _.union(typescript.extractFileNames(
       this.originalServicePath,
       this.serverless.service.provider.name,
       this.functions
-    )
+    ), typescript.getTypescriptCompileFiles(this.originalServicePath))
   }
 
   prepare() {
