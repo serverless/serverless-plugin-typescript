@@ -223,33 +223,33 @@ export class TypeScriptPlugin {
       path.join(this.originalServicePath, SERVERLESS_FOLDER)
     )
 
-    if (this.options.function) {
-      const fn = service.functions[this.options.function]
-      fn.package.artifact = path.join(
-        this.originalServicePath,
-        SERVERLESS_FOLDER,
-        path.basename(fn.package.artifact)
-      )
-      return
-    }
-
-    if (service.package.individually) {
-      const functionNames = service.getAllFunctions()
-      functionNames.forEach(name => {
-        service.functions[name].package.artifact = path.join(
+    const functionNames = service.getAllFunctions()
+    functionNames.forEach(name => {
+      const fnPackage = service.functions[name].package
+      if (fnPackage.artifact) {
+        fnPackage.artifact = path.join(
           this.originalServicePath,
           SERVERLESS_FOLDER,
-          path.basename(service.functions[name].package.artifact)
+          path.basename(fnPackage.artifact)
         )
-      })
-      return
+      }
+    })
+
+    if (service.artifact) {
+      service.artifact = path.join(
+        this.originalServicePath,
+        SERVERLESS_FOLDER,
+        path.basename(service.artifact)
+      )
     }
 
-    service.package.artifact = path.join(
-      this.originalServicePath,
-      SERVERLESS_FOLDER,
-      path.basename(service.package.artifact)
-    )
+    if (service.package.artifact) {
+      service.package.artifact = path.join(
+        this.originalServicePath,
+        SERVERLESS_FOLDER,
+        path.basename(service.package.artifact)
+      )
+    }
   }
 
   async cleanup(): Promise<void> {
