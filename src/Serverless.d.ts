@@ -9,6 +9,7 @@ declare namespace Serverless {
     }
 
     service: {
+      artifact: string
       provider: {
         name: string
       }
