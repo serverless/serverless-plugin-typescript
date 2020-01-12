@@ -112,9 +112,17 @@ export function getSourceFiles(
 
 export function getTypescriptConfig(
   cwd: string,
+  serverless?: Serverless.Instance,
   logger?: { log: (str: string) => void }
 ): ts.CompilerOptions {
-  const configFilePath = path.join(cwd, 'tsconfig.json')
+  let configFilePath = path.join(cwd, 'tsconfig.json')
+
+  if (serverless && serverless.service.custom && serverless.service.custom.typeScript && serverless.service.custom.typeScript.tsconfigFilePath) {
+    configFilePath = path.join(cwd, serverless.service.custom.typeScript.tsconfigFilePath)
+    if (!fs.existsSync(configFilePath)) {
+      throw new Error(`Custom Typescript Config File not found at "${configFilePath}"`)
+    }
+  }
 
   if (fs.existsSync(configFilePath)) {
 
@@ -130,7 +138,7 @@ export function getTypescriptConfig(
     }
 
     if (logger) {
-      logger.log(`Using local tsconfig.json`)
+      logger.log(`Using local tsconfig.json "${configFilePath}"`)
     }
 
     // disallow overrriding rootDir

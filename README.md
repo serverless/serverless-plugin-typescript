@@ -54,6 +54,19 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 > Note 2: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 
+### Custom Typescript Configuration
+
+This plugin will use your local `tsconfig.json` if it exists. You can configure a path to a custom Typescript configuration inside your `serverless.yml` using:
+
+    ...
+    plugins:
+      - serverless-plugin-typescript
+    custom:
+      typeScript:
+        tsconfigFilePath: ./tsconfig.build.json
+    ...    
+
+
 ### Including extra files
 
 All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)

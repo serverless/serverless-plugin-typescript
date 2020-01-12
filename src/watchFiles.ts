@@ -1,8 +1,13 @@
 import * as typescript from './typescript'
-import { watchFile, unwatchFile, Stats} from 'fs'
+import { watchFile, unwatchFile, Stats } from 'fs'
 
-export function watchFiles(rootFileNames: string[], originalServicePath: string, cb: () => void) {
-  const tsConfig = typescript.getTypescriptConfig(originalServicePath)
+export function watchFiles(
+  rootFileNames: string[],
+  originalServicePath: string,
+  serverless: Serverless.Instance,
+  cb: () => void
+) {
+  const tsConfig = typescript.getTypescriptConfig(originalServicePath, serverless)
   let watchedFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
 
   watchedFiles.forEach(fileName => {
@@ -18,7 +23,7 @@ export function watchFiles(rootFileNames: string[], originalServicePath: string,
     cb()
 
     // use can reference not watched yet file or remove reference to already watched
-    const newWatchFiles =  typescript.getSourceFiles(rootFileNames, tsConfig)
+    const newWatchFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
     watchedFiles.forEach(fileName => {
       if (newWatchFiles.indexOf(fileName) < 0) {
         unwatchFile(fileName, watchCallback)

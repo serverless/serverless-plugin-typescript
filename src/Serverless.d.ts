@@ -12,6 +12,11 @@ declare namespace Serverless {
       provider: {
         name: string
       }
+      custom: {
+        typeScript: {
+          tsconfigFilePath: string | undefined
+        }
+      },
       functions: {
         [key: string]: Serverless.Function
       }
