@@ -18,7 +18,7 @@ export function makeDefaultTypescriptConfig() {
   return defaultTypescriptConfig
 }
 
-export function extractFileNames(cwd: string, provider: string, functions?: { [key: string]: Serverless.Function }): string[] {
+export function extractFileNames(cwd: string, provider: string, globalRuntime?: string, functions?: { [key: string]: Serverless.Function }): string[] {
   // The Google provider will use the entrypoint not from the definition of the
   // handler function, but instead from the package.json:main field, or via a
   // index.js file. This check reads the current package.json in the same way
@@ -46,7 +46,13 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
     }
   }
 
+  const runtimeIsNode = (runtime: string) => runtime.toLowerCase().startsWith('node')
+  const shouldProcessFunction = (fn: Serverless.Function) =>
+    (fn.runtime !== undefined && runtimeIsNode(fn.runtime)) ||
+    (fn.runtime === undefined && (globalRuntime === undefined || runtimeIsNode(globalRuntime)))
+
   return _.values(functions)
+    .filter(shouldProcessFunction)
     .map(fn => fn.handler)
     .map(h => {
       const fnName = _.last(h.split('.'))

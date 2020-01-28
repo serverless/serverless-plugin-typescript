@@ -92,6 +92,7 @@ export class TypeScriptPlugin {
     return typescript.extractFileNames(
       this.originalServicePath,
       this.serverless.service.provider.name,
+      this.serverless.service.provider.runtime,
       this.functions
     )
   }
