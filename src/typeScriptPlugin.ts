@@ -92,8 +92,22 @@ export class TypeScriptPlugin {
     return typescript.extractFileNames(
       this.originalServicePath,
       this.serverless.service.provider.name,
-      this.functions
+      this.nodeFunctions
     )
+  }
+
+  get nodeFunctions() {
+    const { service } = this.serverless
+    const functions = this.functions
+
+    // filter out functions that have a non-node runtime because they can't even typescript
+    return Object.keys(this.functions)
+      .map(fn => ({fn, runtime: functions[fn].runtime || service.provider.runtime}))
+      .filter(fnObj => fnObj.runtime.match(/nodejs/))
+      .reduce((prev, cur) => ({
+        ...prev,
+        [cur.fn]: service.functions[cur.fn]
+      }), {} as {[key: string]: Serverless.Function})
   }
 
   prepare() {
@@ -234,7 +248,7 @@ export class TypeScriptPlugin {
     }
 
     if (service.package.individually) {
-      const functionNames = service.getAllFunctions()
+      const functionNames = Object.keys(this.nodeFunctions)
       functionNames.forEach(name => {
         service.functions[name].package.artifact = path.join(
           this.originalServicePath,
