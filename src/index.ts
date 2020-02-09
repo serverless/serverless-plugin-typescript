@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as globby from 'globby'
+import globby from 'globby'
 
 import * as typescript from './typescript'
 import { watchFiles } from './watchFiles'
@@ -9,7 +9,7 @@ import { watchFiles } from './watchFiles'
 const SERVERLESS_FOLDER = '.serverless'
 const BUILD_FOLDER = '.build'
 
-export class TypeScriptPlugin {
+class TypeScriptPlugin {
   private originalServicePath: string
   private isWatching: boolean
 
@@ -278,4 +278,4 @@ export class TypeScriptPlugin {
   }
 }
 
-export default TypeScriptPlugin
+export = TypeScriptPlugin
