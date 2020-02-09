@@ -1,4 +1,5 @@
 declare namespace Serverless {
+
   interface Instance {
     cli: {
       log(str: string): void
@@ -8,18 +9,7 @@ declare namespace Serverless {
       servicePath: string
     }
 
-    service: {
-      provider: {
-        name: string
-        runtime?: string
-      }
-      functions: {
-        [key: string]: Serverless.Function
-      }
-      package: Serverless.Package
-      getAllFunctions(): string[]
-    }
-
+    service: Service
     pluginManager: PluginManager
   }
 
@@ -40,6 +30,18 @@ declare namespace Serverless {
     exclude: string[]
     artifact?: string
     individually?: boolean
+  }
+
+  type FunctionMap = Record<string, Serverless.Function>
+
+  interface Service {
+    provider: {
+      name: string
+      runtime?: string
+    }
+    functions: FunctionMap
+    package: Serverless.Package
+    getAllFunctions(): string[]
   }
 
   interface PluginManager {

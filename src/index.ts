@@ -79,20 +79,22 @@ export class TypeScriptPlugin {
     const { options } = this
     const { service } = this.serverless
 
-    if (options.function) {
-      return {
-        [options.function]: service.functions[this.options.function]
-      }
-    }
+    const allFunctions = options.function ? {
+      [options.function]: service.functions[this.options.function]
+    } : service.functions
 
-    return service.functions
+    // Ensure we only handle runtimes that support Typescript
+    return _.pickBy(allFunctions, ({runtime}) => {
+      const resolvedRuntime = runtime || service.provider.runtime
+      // If runtime is not specified on the function or provider, default to previous behaviour
+      return resolvedRuntime === undefined ? true : resolvedRuntime.match(/^node/)
+    })
   }
 
   get rootFileNames() {
     return typescript.extractFileNames(
       this.originalServicePath,
       this.serverless.service.provider.name,
-      this.serverless.service.provider.runtime,
       this.functions
     )
   }
@@ -235,7 +237,7 @@ export class TypeScriptPlugin {
     }
 
     if (service.package.individually) {
-      const functionNames = service.getAllFunctions()
+      const functionNames = Object.keys(this.functions)
       functionNames.forEach(name => {
         service.functions[name].package.artifact = path.join(
           this.originalServicePath,
@@ -276,4 +278,4 @@ export class TypeScriptPlugin {
   }
 }
 
-module.exports = TypeScriptPlugin
+export default TypeScriptPlugin
