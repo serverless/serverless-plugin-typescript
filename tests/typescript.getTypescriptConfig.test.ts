@@ -1,11 +1,11 @@
-import {getTypescriptConfig, makeDefaultTypescriptConfig} from '../src/typescript'
+import {getTypeScriptConfig, makeDefaultTypeScriptConfig} from '../src/typescript'
 
-describe('getTypescriptConfig', () => {
+describe('getTypeScriptConfig', () => {
     it(`returns default typescript configuration if the one provided doesn't exist`, () => {
         expect(
-            getTypescriptConfig('/ciaone/my-folder'),
+            getTypeScriptConfig('/ciaone/my-folder'),
         ).toEqual(
-            makeDefaultTypescriptConfig()
+            makeDefaultTypeScriptConfig()
         )
     })
 })

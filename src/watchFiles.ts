@@ -2,7 +2,7 @@ import * as typescript from './typescript'
 import { watchFile, unwatchFile, Stats} from 'fs'
 
 export function watchFiles(rootFileNames: string[], originalServicePath: string, cb: () => void) {
-  const tsConfig = typescript.getTypescriptConfig(originalServicePath)
+  const tsConfig = typescript.getTypeScriptConfig(originalServicePath)
   let watchedFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
 
   watchedFiles.forEach(fileName => {
