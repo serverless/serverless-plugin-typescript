@@ -3,8 +3,8 @@ import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
 
-export function makeDefaultTypescriptConfig() {
-  const defaultTypescriptConfig: ts.CompilerOptions = {
+export function makeDefaultTypeScriptConfig() {
+  const defaultTypeScriptConfig: ts.CompilerOptions = {
     preserveConstEnums: true,
     strictNullChecks: true,
     sourceMap: true,
@@ -15,7 +15,7 @@ export function makeDefaultTypescriptConfig() {
     rootDir: './',
   }
 
-  return defaultTypescriptConfig
+  return defaultTypeScriptConfig
 }
 
 export function extractFileNames(cwd: string, provider: string, functions?: { [key: string]: Serverless.Function }): string[] {
@@ -39,7 +39,7 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
       // Check that the file indeed exists.
       if (!fs.existsSync(path.join(cwd, main))) {
         console.log(`Cannot locate entrypoint, ${main} not found`)
-        throw new Error('Typescript compilation failed')
+        throw new Error('TypeScript compilation failed')
       }
 
       return [main]
@@ -66,7 +66,7 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
 
       // Can't find the files. Watch will have an exception anyway. So throw one with error.
       console.log(`Cannot locate handler - ${fileName} not found`)
-      throw new Error('Typescript compilation failed. Please ensure handlers exists with ext .ts or .js')
+      throw new Error('TypeScript compilation failed. Please ensure handlers exists with ext .ts or .js')
     })
 }
 
@@ -88,7 +88,7 @@ export async function run(fileNames: string[], options: ts.CompilerOptions): Pro
   })
 
   if (emitResult.emitSkipped) {
-    throw new Error('Typescript compilation failed')
+    throw new Error('TypeScript compilation failed')
   }
 
   return emitResult.emittedFiles.filter(filename => filename.endsWith('.js'))
@@ -110,7 +110,7 @@ export function getSourceFiles(
   return programmFiles
 }
 
-export function getTypescriptConfig(
+export function getTypeScriptConfig(
   cwd: string,
   logger?: { log: (str: string) => void }
 ): ts.CompilerOptions {
@@ -142,5 +142,5 @@ export function getTypescriptConfig(
     return configParseResult.options
   }
 
-  return makeDefaultTypescriptConfig()
+  return makeDefaultTypeScriptConfig()
 }

@@ -136,7 +136,7 @@ export class TypeScriptPlugin {
 
   async compileTs(): Promise<string[]> {
     this.prepare()
-    this.serverless.cli.log('Compiling with Typescript...')
+    this.serverless.cli.log('Compiling with TypeScript...')
 
     if (!this.originalServicePath) {
       // Save original service path and functions
@@ -145,7 +145,7 @@ export class TypeScriptPlugin {
       this.serverless.config.servicePath = path.join(this.originalServicePath, BUILD_FOLDER)
     }
 
-    const tsconfig = typescript.getTypescriptConfig(
+    const tsconfig = typescript.getTypeScriptConfig(
       this.originalServicePath,
       this.isWatching ? null : this.serverless.cli
     )
@@ -153,7 +153,7 @@ export class TypeScriptPlugin {
     tsconfig.outDir = BUILD_FOLDER
 
     const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
-    this.serverless.cli.log('Typescript compiled.')
+    this.serverless.cli.log('TypeScript compiled.')
     return emitedFiles
   }
 

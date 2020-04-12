@@ -1,7 +1,7 @@
 # serverless-plugin-typescript
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![Build Status](https://travis-ci.org/prisma/serverless-plugin-typescript.svg?branch=master)](https://travis-ci.org/prisma/serverless-plugin-typescript)
 
-Serverless plugin for zero-config Typescript support
+Serverless plugin for zero-config TypeScript support
 
 ## Features
 
@@ -84,10 +84,10 @@ compilation begins, it will check to see that the file indicated exists with a
 
 ### Automatic compilation
 
-The normal Serverless deploy procedure will automatically compile with Typescript:
+The normal Serverless deploy procedure will automatically compile with TypeScript:
 
 - Create the Serverless project with `serverless create -t aws-nodejs`
-- Install Serverless Typescript as above
+- Install Serverless TypeScript as above
 - Deploy with `serverless deploy`
 
 ### Usage with serverless-offline
