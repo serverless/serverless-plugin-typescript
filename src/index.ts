@@ -144,9 +144,16 @@ export class TypeScriptPlugin {
       // Fake service path so that serverless will know what to zip
       this.serverless.config.servicePath = path.join(this.originalServicePath, BUILD_FOLDER)
     }
-
+    let tsConfigFileLocation: string | undefined
+    if (
+      this.serverless.service.custom !== undefined
+      && this.serverless.service.custom.serverlessPluginTypescript !== undefined
+    ) {
+      tsConfigFileLocation = this.serverless.service.custom.serverlessPluginTypescript.tsConfigFileLocation
+    }
     const tsconfig = typescript.getTypescriptConfig(
       this.originalServicePath,
+      tsConfigFileLocation,
       this.isWatching ? null : this.serverless.cli
     )
 

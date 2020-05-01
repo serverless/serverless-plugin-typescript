@@ -112,16 +112,20 @@ export function getSourceFiles(
 
 export function getTypescriptConfig(
   cwd: string,
+  tsConfigFileLocation: string = 'tsconfig.json',
   logger?: { log: (str: string) => void }
 ): ts.CompilerOptions {
-  const configFilePath = path.join(cwd, 'tsconfig.json')
+  const configFilePath = path.join(cwd, tsConfigFileLocation)
 
   if (fs.existsSync(configFilePath)) {
-
     const configFileText = fs.readFileSync(configFilePath).toString()
     const result = ts.parseConfigFileTextToJson(configFilePath, configFileText)
     if (result.error) {
-      throw new Error(JSON.stringify(result.error))
+      try {
+        throw new Error(JSON.stringify(result.error))
+      } catch (err) {
+        throw new Error('Invalid TSConfig file - is this file JSON format?')
+      }
     }
 
     const configParseResult = ts.parseJsonConfigFileContent(result.config, ts.sys, path.dirname(configFilePath))
@@ -130,7 +134,7 @@ export function getTypescriptConfig(
     }
 
     if (logger) {
-      logger.log(`Using local tsconfig.json`)
+      logger.log(`Using local tsconfig.json - ${tsConfigFileLocation}`)
     }
 
     // disallow overrriding rootDir
