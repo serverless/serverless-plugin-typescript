@@ -148,7 +148,7 @@ Options are:
 You can easily enable support for source-maps (making stacktraces easier to read) by installing and using the following plugin:
 
 ```sh
-yarn add --dev source-map-support
+yarn add source-map-support
 ```
 
 ```ts
