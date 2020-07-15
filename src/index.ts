@@ -192,7 +192,7 @@ export class TypeScriptPlugin {
     // copy development dependencies during packaging
     if (isPackaging) {
       if (fs.existsSync(outModulesPath)) {
-        fs.unlinkSync(outModulesPath)
+        fs.removeSync(outModulesPath)
       }
 
       fs.copySync(
