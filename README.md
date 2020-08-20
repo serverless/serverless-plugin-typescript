@@ -54,6 +54,18 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 > Note 2: Don't confuse the [`tsconfig.json`](tsconfig.json) in this repository with the one mentioned above.
 
+You can also enable or disable functionalities in `serverless.yml`:
+
+```yml
+custom:
+  typescript:
+    run: true
+    offline: true # compile when running serverless offline
+    package: true # compile when doing serverless package
+    deploy: true # compile when doing serverless deploy
+    invoke: true # compile when doing serverless invoke
+```
+
 ### Including extra files
 
 All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)
