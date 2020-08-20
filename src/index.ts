@@ -20,7 +20,7 @@ export class TypeScriptPlugin {
   constructor(serverless: Serverless.Instance, options: Serverless.Options) {
     this.serverless = serverless
     this.options = options
-    
+
     this.hooks = {}
 
     if (serverless.service?.custom?.typescript?.run ?? true) {
