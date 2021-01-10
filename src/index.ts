@@ -100,7 +100,7 @@ export class TypeScriptPlugin {
  this.isWatching ? null : this.serverless.cli
     )
 
-    tsconfig.fileNames.forEach(fileName => fileNames.push(fileName.replace(this.originalServicePath + '/', '')))
+    tsconfig?.fileNames?.forEach(fileName => fileNames.push(fileName.replace(this.originalServicePath + '/', '')))
 
     return fileNames
   }
