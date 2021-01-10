@@ -3,16 +3,19 @@ import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
 
-export function makeDefaultTypescriptConfig() {
-  const defaultTypescriptConfig: ts.CompilerOptions = {
-    preserveConstEnums: true,
-    strictNullChecks: true,
-    sourceMap: true,
-    allowJs: true,
-    target: ts.ScriptTarget.ES5,
-    moduleResolution: ts.ModuleResolutionKind.NodeJs,
-    lib: ['lib.es2015.d.ts'],
-    rootDir: './',
+export function makeDefaultTypescriptConfig(): ts.ParsedCommandLine {
+  const defaultTypescriptConfig: ts.ParsedCommandLine = {
+      options: {
+          preserveConstEnums: true,
+          strictNullChecks: true,
+          sourceMap: true,
+          allowJs: true,
+          target: ts.ScriptTarget.ES5,
+          moduleResolution: ts.ModuleResolutionKind.NodeJs,
+          lib: ['lib.es2015.d.ts'],
+          rootDir: './',
+      },
+      errors: [], fileNames: []
   }
 
   return defaultTypescriptConfig
@@ -113,34 +116,34 @@ export function getSourceFiles(
 export function getTypescriptConfig(
   cwd: string,
   logger?: { log: (str: string) => void }
-): ts.CompilerOptions {
-  const configFilePath = path.join(cwd, 'tsconfig.json')
+): ts.ParsedCommandLine {
+    const configFilePath = path.join(cwd, 'tsconfig.json')
 
-  if (fs.existsSync(configFilePath)) {
+    if (fs.existsSync(configFilePath)) {
 
-    const configFileText = fs.readFileSync(configFilePath).toString()
-    const result = ts.parseConfigFileTextToJson(configFilePath, configFileText)
-    if (result.error) {
-      throw new Error(JSON.stringify(result.error))
+        const configFileText = fs.readFileSync(configFilePath).toString()
+        const result = ts.parseConfigFileTextToJson(configFilePath, configFileText)
+        if (result.error) {
+            throw new Error(JSON.stringify(result.error))
+        }
+
+        const configParseResult = ts.parseJsonConfigFileContent(result.config, ts.sys, path.dirname(configFilePath))
+        if (configParseResult.errors.length > 0) {
+            throw new Error(JSON.stringify(configParseResult.errors))
+        }
+
+        if (logger) {
+            logger.log(`Using local tsconfig.json`)
+        }
+
+        // disallow overrriding rootDir
+        if (configParseResult.options.rootDir && path.resolve(configParseResult.options.rootDir) !== path.resolve(cwd) && logger) {
+            logger.log('Warning: "rootDir" from local tsconfig.json is overriden')
+        }
+        configParseResult.options.rootDir = cwd
+
+        return configParseResult
     }
 
-    const configParseResult = ts.parseJsonConfigFileContent(result.config, ts.sys, path.dirname(configFilePath))
-    if (configParseResult.errors.length > 0) {
-      throw new Error(JSON.stringify(configParseResult.errors))
-    }
-
-    if (logger) {
-      logger.log(`Using local tsconfig.json`)
-    }
-
-    // disallow overrriding rootDir
-    if (configParseResult.options.rootDir && path.resolve(configParseResult.options.rootDir) !== path.resolve(cwd) && logger) {
-      logger.log('Warning: "rootDir" from local tsconfig.json is overriden')
-    }
-    configParseResult.options.rootDir = cwd
-
-    return configParseResult.options
-  }
-
-  return makeDefaultTypescriptConfig()
+    return makeDefaultTypescriptConfig()
 }

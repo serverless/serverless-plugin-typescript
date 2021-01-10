@@ -89,11 +89,20 @@ export class TypeScriptPlugin {
   }
 
   get rootFileNames() {
-    return typescript.extractFileNames(
-      this.originalServicePath,
-      this.serverless.service.provider.name,
-      this.functions
+    const fileNames = typescript.extractFileNames(
+        this.originalServicePath,
+        this.serverless.service.provider.name,
+        this.functions
     )
+
+    const tsconfig = typescript.getTypescriptConfig(
+        this.originalServicePath,
+ this.isWatching ? null : this.serverless.cli
+    )
+
+    tsconfig.fileNames.forEach(fileName => fileNames.push(fileName.replace(this.originalServicePath + '/', '')))
+
+    return fileNames
   }
 
   prepare() {
@@ -150,9 +159,13 @@ export class TypeScriptPlugin {
       this.isWatching ? null : this.serverless.cli
     )
 
-    tsconfig.outDir = BUILD_FOLDER
+    tsconfig.options.outDir = BUILD_FOLDER
 
-    const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
+    const emitedFiles = await typescript.run(this.rootFileNames, tsconfig.options)
+    if (tsconfig?.options?.listEmittedFiles) {
+        this.serverless.cli.log('Emitted Files:')
+        this.serverless.cli.log(emitedFiles.join('\n'))
+    }
     this.serverless.cli.log('Typescript compiled.')
     return emitedFiles
   }
