@@ -9,6 +9,16 @@ import { watchFiles } from './watchFiles'
 const SERVERLESS_FOLDER = '.serverless'
 const BUILD_FOLDER = '.build'
 
+// handles broken symlinks
+const symlinkExistsSync = (path: string) => {
+    try {
+        fs.lstatSync(path);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 export class TypeScriptPlugin {
   private originalServicePath: string
   private isWatching: boolean
@@ -191,14 +201,17 @@ export class TypeScriptPlugin {
 
     // copy development dependencies during packaging
     if (isPackaging) {
-      if (fs.existsSync(outModulesPath)) {
+      // symlinkExistsSync handles the broken symlink case
+      if (fs.existsSync(outModulesPath) || symlinkExistsSync(outModulesPath)) {
         fs.unlinkSync(outModulesPath)
       }
 
-      fs.copySync(
-        path.resolve('node_modules'),
-        path.resolve(path.join(BUILD_FOLDER, 'node_modules'))
-      )
+      if (fs.existsSync(path.resolve('node_modules'))) {
+          fs.copySync(
+              path.resolve('node_modules'),
+              outModulesPath
+          )
+      }
     } else {
       if (!fs.existsSync(outModulesPath)) {
         await this.linkOrCopy(path.resolve('node_modules'), outModulesPath, 'junction')
