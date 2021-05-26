@@ -1,6 +1,6 @@
 {
-  "name": "serverless-plugin-typescript",
-  "version": "0.0.0-semantic-release",
+  "name": "serverless-plugin-typescript-alt",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/src/index.js",
   "files": [
