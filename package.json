@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prisma/serverless-plugin-typescript.git"
+    "url": "git+https://github.com/smcelhinney/serverless-plugin-typescript.git"
   },
   "keywords": [
     "serverless",
