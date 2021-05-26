@@ -140,6 +140,7 @@ Options are:
 
 - `--function` or `-f` (required) is the name of the function to run
 - `--watch` - recompile and run a function locally on source changes
+- `--watch-interval` - Specify an interval for watched files to register changes, defaults to 250ms
 - `--path` or `-p` (optional) path to JSON or YAML file holding input data
 - `--data` or `-d` (optional) input data
 

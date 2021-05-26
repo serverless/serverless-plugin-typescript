@@ -26,6 +26,7 @@ declare namespace Serverless {
     function?: string
     watch?: boolean
     extraServicePath?: string
+    watchInterval?: number
   }
 
   interface Function {

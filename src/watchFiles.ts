@@ -1,12 +1,12 @@
 import * as typescript from './typescript'
 import { watchFile, unwatchFile, Stats} from 'fs'
 
-export function watchFiles(rootFileNames: string[], originalServicePath: string, cb: () => void) {
+export function watchFiles(rootFileNames: string[], originalServicePath: string, cb: () => void, interval: number = 250) {
   const tsConfig = typescript.getTypescriptConfig(originalServicePath)
   let watchedFiles = typescript.getSourceFiles(rootFileNames, tsConfig)
 
   watchedFiles.forEach(fileName => {
-    watchFile(fileName, { persistent: true, interval: 250 }, watchCallback)
+    watchFile(fileName, { persistent: true, interval }, watchCallback)
   })
 
   function watchCallback(curr: Stats, prev: Stats) {
