@@ -15,6 +15,9 @@ declare namespace Serverless {
       functions: {
         [key: string]: Serverless.Function
       }
+      custom: {
+        [key: string]: any
+      }
       package: Serverless.Package
       getAllFunctions(): string[]
     }

@@ -152,7 +152,11 @@ export class TypeScriptPlugin {
 
     tsconfig.outDir = BUILD_FOLDER
 
-    const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
+    const emitedFiles = await typescript.run(
+        this.rootFileNames,
+        tsconfig,
+        { paths: this.serverless.service?.custom?.typescript?.paths ?? false }
+    )
     this.serverless.cli.log('Typescript compiled.')
     return emitedFiles
   }

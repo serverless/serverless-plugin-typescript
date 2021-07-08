@@ -71,19 +71,17 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
     })
 }
 
-export async function run(fileNames: string[], options: ts.CompilerOptions): Promise<string[]> {
+export async function run(fileNames: string[], options: ts.CompilerOptions, { paths = false }: { paths?: boolean } = {}): Promise<string[]> {
   options.listEmittedFiles = true
-  const host = ts.createCompilerHost(options);
-  host.writeFile = (file, data) => fs.writeFileSync(
-      file,
-      ts.transform(
-          ts.createSourceFile(file, data, options.target),
-          [transformPaths(program, {})]
-      ).transformed[0].text
-  );
-  const program = ts.createProgram(fileNames, options, host)
+  const program = ts.createProgram(fileNames, options)
 
-  const emitResult = program.emit()
+  const emitResult = program.emit(
+      undefined,
+      undefined,
+      undefined,
+      false,
+      paths ? { before: [transformPaths(program, {}, { ts })] } : {}
+  )
 
   const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics)
 
