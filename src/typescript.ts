@@ -2,6 +2,7 @@ import * as ts from 'typescript'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
+import transformPaths from "typescript-transform-paths";
 
 export function makeDefaultTypescriptConfig() {
   const defaultTypescriptConfig: ts.CompilerOptions = {
@@ -72,7 +73,15 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
 
 export async function run(fileNames: string[], options: ts.CompilerOptions): Promise<string[]> {
   options.listEmittedFiles = true
-  const program = ts.createProgram(fileNames, options)
+  const host = ts.createCompilerHost(options);
+  host.writeFile = (file, data) => fs.writeFileSync(
+      file,
+      ts.transform(
+          ts.createSourceFile(file, data, options.target),
+          [transformPaths(program, {})]
+      ).transformed[0].text
+  );
+  const program = ts.createProgram(fileNames, options, host)
 
   const emitResult = program.emit()
 

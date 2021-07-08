@@ -41,7 +41,8 @@
   "dependencies": {
     "fs-extra": "^7.0.1",
     "globby": "^9.2.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "typescript-transform-paths": "^3.0.2"
   },
   "peerDependencies": {
     "typescript": ">=2.2.2"
