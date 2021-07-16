@@ -36,6 +36,7 @@ declare namespace Serverless {
   interface Package {
     include: string[]
     exclude: string[]
+    patterns: string[]
     artifact?: string
     individually?: boolean
   }

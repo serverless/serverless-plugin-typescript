@@ -103,6 +103,7 @@ export class TypeScriptPlugin {
       fn.package = fn.package || {
         exclude: [],
         include: [],
+        patterns: []
       }
 
       // Add plugin to excluded packages or an empty array if exclude is undefined
@@ -157,13 +158,14 @@ export class TypeScriptPlugin {
     return emitedFiles
   }
 
-  /** Link or copy extras such as node_modules or package.include definitions */
+  /** Link or copy extras such as node_modules or package.patterns definitions */
   async copyExtras() {
     const { service } = this.serverless
 
+    const patterns = [...(service.package.include || []), ...(service.package.patterns || [])]
     // include any "extras" from the "include" section
-    if (service.package.include && service.package.include.length > 0) {
-      const files = await globby(service.package.include)
+    if (patterns.length > 0) {
+      const files = await globby(patterns)
 
       for (const filename of files) {
         const destFileName = path.resolve(path.join(BUILD_FOLDER, filename))

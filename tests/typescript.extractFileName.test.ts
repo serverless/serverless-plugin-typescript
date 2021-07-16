@@ -6,21 +6,24 @@ const functions: { [key: string]: Serverless.Function } = {
         handler: 'tests/assets/hello.handler',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
     world: {
         handler: 'tests/assets/world.handler',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
     js: {
         handler: 'tests/assets/jsfile.create',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
 }
