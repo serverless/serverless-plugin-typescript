@@ -168,9 +168,3 @@ module.exports = {
 }
 ```
 
-## Help & Community
-
-Join our [Spectrum community](http://spectrum.chat/prisma) if you run into issues or have questions. We love talking to you!
-
-<p align="center"><a href="https://oss.prisma.io"><img src="https://imgur.com/IMU2ERq.png" alt="Prisma" height="170px"></a></p>
-
