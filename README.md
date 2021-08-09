@@ -3,6 +3,8 @@
 
 Serverless plugin for zero-config Typescript support
 
+_Originally developed by [Prisma Labs](https://github.com/prisma-labs/), now maintained in scope of [Serverless, Inc](https://www.serverless.com/)_
+
 ## Features
 
 * Zero-config: Works out of the box without the need to install any other compiler or plugins
