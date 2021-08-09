@@ -1,9 +1,10 @@
 # serverless-plugin-typescript
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![Build Status](https://travis-ci.org/prisma/serverless-plugin-typescript.svg?branch=master)](https://travis-ci.org/prisma/serverless-plugin-typescript)
 
+_Originally developed by [Prisma Labs](https://github.com/prisma-labs/), now maintained in scope of [Serverless, Inc](https://www.serverless.com/)_
+
 Serverless plugin for zero-config Typescript support
 
-_Originally developed by [Prisma Labs](https://github.com/prisma-labs/), now maintained in scope of [Serverless, Inc](https://www.serverless.com/)_
 
 ## Features
 
