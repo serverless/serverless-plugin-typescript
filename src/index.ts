@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as globby from 'globby'
+import globby from 'globby'
 
 import * as typescript from './typescript'
 import { watchFiles } from './watchFiles'
@@ -9,7 +9,7 @@ import { watchFiles } from './watchFiles'
 const SERVERLESS_FOLDER = '.serverless'
 const BUILD_FOLDER = '.build'
 
-export class TypeScriptPlugin {
+class TypeScriptPlugin {
   private originalServicePath: string
   private isWatching: boolean
 
@@ -79,13 +79,16 @@ export class TypeScriptPlugin {
     const { options } = this
     const { service } = this.serverless
 
-    if (options.function) {
-      return {
-        [options.function]: service.functions[this.options.function]
-      }
-    }
+    const allFunctions = options.function ? {
+      [options.function]: service.functions[this.options.function]
+    } : service.functions
 
-    return service.functions
+    // Ensure we only handle runtimes that support Typescript
+    return _.pickBy(allFunctions, ({runtime}) => {
+      const resolvedRuntime = runtime || service.provider.runtime
+      // If runtime is not specified on the function or provider, default to previous behaviour
+      return resolvedRuntime === undefined ? true : resolvedRuntime.match(/^node/)
+    })
   }
 
   get rootFileNames() {
@@ -234,7 +237,7 @@ export class TypeScriptPlugin {
     }
 
     if (service.package.individually) {
-      const functionNames = service.getAllFunctions()
+      const functionNames = Object.keys(this.functions)
       functionNames.forEach(name => {
         service.functions[name].package.artifact = path.join(
           this.originalServicePath,
@@ -275,4 +278,4 @@ export class TypeScriptPlugin {
   }
 }
 
-module.exports = TypeScriptPlugin
+export = TypeScriptPlugin
