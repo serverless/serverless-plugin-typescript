@@ -21,52 +21,68 @@ export class TypeScriptPlugin {
     this.serverless = serverless
     this.options = options
 
-    this.hooks = {
-      'before:run:run': async () => {
+    this.hooks = {}
+
+    if (serverless.service?.custom?.typescript?.run ?? true) {
+      this.hooks['before:run:run'] = async () => {
         await this.compileTs()
         await this.copyExtras()
         await this.copyDependencies()
-      },
-      'before:offline:start': async () => {
+      }
+    }
+
+    if (serverless.service?.custom?.typescript?.offline ?? true) {
+      this.hooks['before:offline:start'] = async () => {
         await this.compileTs()
         await this.copyExtras()
         await this.copyDependencies()
         this.watchAll()
-      },
-      'before:offline:start:init': async () => {
+      }
+      this.hooks['before:offline:start:init'] = async () => {
         await this.compileTs()
         await this.copyExtras()
         await this.copyDependencies()
         this.watchAll()
-      },
-      'before:package:createDeploymentArtifacts': async () => {
+      }
+    }
+
+    if (serverless.service?.custom?.typescript?.package ?? true) {
+      this.hooks['before:package:createDeploymentArtifacts'] = async () => {
         await this.compileTs()
         await this.copyExtras()
         await this.copyDependencies(true)
-      },
-      'after:package:createDeploymentArtifacts': async () => {
+      }
+      this.hooks['after:package:createDeploymentArtifacts'] = async () => {
         await this.cleanup()
-      },
-      'before:deploy:function:packageFunction': async () => {
+      }
+    }
+
+    if (serverless.service?.custom?.typescript?.deploy ?? true) {
+      this.hooks['before:deploy:function:packageFunction'] = async () => {
         await this.compileTs()
         await this.copyExtras()
         await this.copyDependencies(true)
-      },
-      'after:deploy:function:packageFunction': async () => {
+      }
+      this.hooks['after:deploy:function:packageFunction'] = async () => {
         await this.cleanup()
-      },
-      'before:invoke:local:invoke': async () => {
-        const emitedFiles = await this.compileTs()
-        await this.copyExtras()
-        await this.copyDependencies()
-        if (this.isWatching) {
-          emitedFiles.forEach(filename => {
-            const module = require.resolve(path.resolve(this.originalServicePath, filename))
-            delete require.cache[module]
-          })
+      }
+    }
+
+    if (serverless.service?.custom?.typescript?.invoke ?? true) {
+      this.hooks['before:invoke:local:invoke'] = async () => {
+        if (serverless.service?.custom?.typescript?.invoke ?? true) {
+          const emitedFiles = await this.compileTs()
+          await this.copyExtras()
+          await this.copyDependencies()
+          if (this.isWatching) {
+            emitedFiles.forEach(filename => {
+              const module = require.resolve(path.resolve(this.originalServicePath, filename))
+              delete require.cache[module]
+            })
+          }
         }
-      },
-      'after:invoke:local:invoke': () => {
+      }
+      this.hooks['after:invoke:local:invoke'] = () => {
         if (this.options.watch) {
           this.watchFunction()
           this.serverless.cli.log('Waiting for changes...')
