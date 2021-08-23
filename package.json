@@ -36,12 +36,12 @@
     "rimraf": "2.6.3",
     "ts-jest": "24.0.2",
     "tslint": "5.14.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.9.10"
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
     "globby": "^9.2.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "serverless": "1 || 2",
