@@ -21,6 +21,11 @@ export class TypeScriptPlugin {
     this.serverless = serverless
     this.options = options
 
+    if (!this.isEnabled()) {
+      this.serverless.cli.log('Typescript plugin is disabled.')
+      return
+    }
+
     this.hooks = {
       'before:run:run': async () => {
         await this.compileTs()
@@ -93,7 +98,21 @@ export class TypeScriptPlugin {
       this.originalServicePath,
       this.serverless.service.provider.name,
       this.functions
-    )
+      )
+    }
+
+  isEnabled() {
+    const cliOption = this.options['typescript-plugin']
+    if (cliOption === 'disabled' || cliOption === 'off' || cliOption === 'false') {
+      return false
+    }
+
+    const custom = this.serverless.service.custom
+    if (custom && custom.typescriptPlugin && (!custom.typescriptPlugin.enabled || custom.typescriptPlugin.enabled.toString() === 'false')) {
+        return false
+    }
+
+    return true
   }
 
   prepare() {
