@@ -11,10 +11,35 @@
   "scripts": {
     "build": "rimraf dist && tsc",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prepare-release": "standard-version",
     "prepublish": "npm run build",
     "precommit": "npm run test",
     "pretest": "npm run lint",
     "test": "jest"
+  },
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true
+    },
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "perf",
+        "section": "Performance Improvements"
+      },
+      {
+        "type": "refactor",
+        "section": "Maintenance Improvements"
+      }
+    ]
   },
   "repository": {
     "type": "git",
@@ -34,6 +59,7 @@
     "jest": "24.5.0",
     "mock-fs": "4.9.0",
     "rimraf": "2.6.3",
+    "standard-version": "^9.3.1",
     "ts-jest": "24.0.2",
     "tslint": "5.14.0",
     "typescript": "^3.9.10"
