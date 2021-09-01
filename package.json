@@ -9,12 +9,12 @@
     "README.md"
   ],
   "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "prepublish": "npm run build",
     "precommit": "npm run test",
-    "build": "rimraf dist && tsc",
     "pretest": "npm run lint",
-    "test": "jest",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
