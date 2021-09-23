@@ -61,6 +61,14 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)
 
+### Non-standard tsconfig.json locations
+Override what tsconfig.json to use with the following snippet in your severless.yaml
+```
+custom:
+  serverlessPluginTypescript:
+    tsConfigFileLocation: './tsconfig.build.json'
+
+```
 
 ## Usage
 

@@ -17,6 +17,11 @@ declare namespace Serverless {
       }
       package: Serverless.Package
       getAllFunctions(): string[]
+      custom?: {
+        serverlessPluginTypescript?: {
+          tsConfigFileLocation: string
+        }
+      }
     }
 
     pluginManager: PluginManager
