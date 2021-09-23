@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/serverless/serverless-plugin-typescript/compare/v2.0.0...v2.1.0) (2021-09-23)
+
+
+### Features
+
+* Support user defined tsconfig paths ([#205](https://github.com/serverless/serverless-plugin-typescript/issues/205)) ([a367dcd](https://github.com/serverless/serverless-plugin-typescript/commit/a367dcdcb1e7efb72e68ef6e0630d50db15cb856)) ([Jack Scotson](https://github.com/Scotsoo))
+
 ## [2.0.0](https://github.com/prisma/serverless-plugin-typescript/compare/v1.2.0...v2.0.0) (2021-09-01)
 
 ### ⚠ BREAKING CHANGES
