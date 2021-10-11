@@ -16,10 +16,29 @@ export class TypeScriptPlugin {
   serverless: Serverless.Instance
   options: Serverless.Options
   hooks: { [key: string]: Function }
+  utils: Serverless.Utils
+  commands: Serverless.CommandsDefinition
+  watchProgress?: Serverless.Progress
 
-  constructor(serverless: Serverless.Instance, options: Serverless.Options) {
+  constructor(serverless: Serverless.Instance, options: Serverless.Options, utils) {
     this.serverless = serverless
     this.options = options
+    this.utils = utils
+
+    this.commands = {
+      invoke: {
+        commands: {
+          local: {
+            options: {
+              watch: {
+                type: 'boolean',
+                usage: 'Watch file changes and re-invoke automatically the function'
+              }
+            }
+          }
+        }
+      }
+    }
 
     this.hooks = {
       'before:run:run': async () => {
@@ -65,11 +84,17 @@ export class TypeScriptPlugin {
             delete require.cache[module]
           })
         }
+        this.watchProgress = this.watchProgress ?? this.utils.progress.create()
       },
-      'after:invoke:local:invoke': () => {
+      'after:invoke:local:invoke': async () => {
         if (this.options.watch) {
+          if (this.watchProgress) {
+            this.watchProgress.update('Watching for TypeScript changes')
+          }
           this.watchFunction()
-          this.serverless.cli.log('Waiting for changes...')
+          return new Promise(() => {
+            // return an unresolved promise to keep the command active (else the CLI shuts down)
+          })
         }
       }
     }
@@ -116,7 +141,7 @@ export class TypeScriptPlugin {
       return
     }
 
-    this.serverless.cli.log(`Watch function ${this.options.function}...`)
+    this.utils.log.verbose(`Watching function ${this.options.function}`)
 
     this.isWatching = true
     watchFiles(this.rootFileNames, this.originalServicePath, () => {
@@ -129,7 +154,7 @@ export class TypeScriptPlugin {
       return
     }
 
-    this.serverless.cli.log(`Watching typescript files...`)
+    this.utils.log.verbose(`Watching typescript files`)
 
     this.isWatching = true
     watchFiles(this.rootFileNames, this.originalServicePath, this.compileTs.bind(this))
@@ -137,7 +162,9 @@ export class TypeScriptPlugin {
 
   async compileTs(): Promise<string[]> {
     this.prepare()
-    this.serverless.cli.log('Compiling with Typescript...')
+    const progress = this.utils.progress.create({
+      message: 'Compiling TypeScript code'
+    })
 
     if (!this.originalServicePath) {
       // Save original service path and functions
@@ -155,13 +182,13 @@ export class TypeScriptPlugin {
     const tsconfig = typescript.getTypescriptConfig(
       this.originalServicePath,
       tsConfigFileLocation,
-      this.isWatching ? null : this.serverless.cli
+      !this.isWatching
     )
 
     tsconfig.outDir = BUILD_FOLDER
 
     const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
-    this.serverless.cli.log('Typescript compiled.')
+    progress.remove()
     return emitedFiles
   }
 
