@@ -62,12 +62,12 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
+    "@serverless/utils": "pre-6",
     "fs-extra": "^7.0.1",
     "globby": "^10.0.2",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "serverless": "2",
     "typescript": ">=2.2.2"
   },
   "jest": {
