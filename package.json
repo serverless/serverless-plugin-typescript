@@ -62,7 +62,7 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "@serverless/utils": "^5.20.0",
+    "@serverless/utils": "pre-6",
     "fs-extra": "^7.0.1",
     "globby": "^10.0.2",
     "lodash": "^4.17.21"
