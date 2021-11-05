@@ -47,7 +47,7 @@ declare namespace Serverless {
   }
 
   interface Progress {
-    update(message?: string): void
+    update(message: string): void
     remove(): void
   }
 

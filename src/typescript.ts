@@ -90,6 +90,8 @@ export async function run(fileNames: string[], options: ts.CompilerOptions): Pro
     throw new Error('TypeScript compilation failed')
   }
 
+  log.success('This is a test success message')
+
   return emitResult.emittedFiles.filter(filename => filename.endsWith('.js'))
 }
 
