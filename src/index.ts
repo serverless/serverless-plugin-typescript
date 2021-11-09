@@ -16,10 +16,26 @@ export class TypeScriptPlugin {
   serverless: Serverless.Instance
   options: Serverless.Options
   hooks: { [key: string]: Function }
+  commands: Serverless.CommandsDefinition
 
   constructor(serverless: Serverless.Instance, options: Serverless.Options) {
     this.serverless = serverless
     this.options = options
+
+    this.commands = {
+      invoke: {
+        commands: {
+          local: {
+            options: {
+              watch: {
+                type: 'boolean',
+                usage: 'Watch file changes and re-invoke automatically the function'
+              }
+            }
+          }
+        }
+      }
+    }
 
     this.hooks = {
       'before:run:run': async () => {
