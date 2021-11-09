@@ -66,10 +66,9 @@ export class TypeScriptPlugin {
           })
         }
       },
-      'after:invoke:local:invoke': () => {
+      'after:invoke:local:invoke': async () => {
         if (this.options.watch) {
-          this.watchFunction()
-          this.serverless.cli.log('Waiting for changes...')
+          await this.watchFunction()
         }
       }
     }
@@ -117,10 +116,13 @@ export class TypeScriptPlugin {
     }
 
     this.serverless.cli.log(`Watch function ${this.options.function}...`)
+    this.serverless.cli.log('Waiting for changes...')
 
     this.isWatching = true
-    watchFiles(this.rootFileNames, this.originalServicePath, () => {
-      this.serverless.pluginManager.spawn('invoke:local')
+    await new Promise((resolve, reject) => {
+      watchFiles(this.rootFileNames, this.originalServicePath, () => {
+        this.serverless.pluginManager.spawn('invoke:local').catch(reject)
+      })
     })
   }
 
