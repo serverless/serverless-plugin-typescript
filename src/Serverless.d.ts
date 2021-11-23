@@ -63,6 +63,20 @@ declare namespace Serverless {
       }
       >
 
+  interface Progress {
+    update(message: string): void
+    remove(): void
+  }
+
+  interface Utils {
+    log: ((message: string) => void) & {
+      verbose(message: string): void
+    }
+    progress: {
+      create(opts?: { message?: string }): Progress;
+    }
+  }
+
   interface PluginManager {
     spawn(command: string): Promise<void>
   }
