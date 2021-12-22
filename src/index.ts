@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as globby from 'globby'
-
+import { execSync } from 'child_process'
 import * as typescript from './typescript'
 import { watchFiles } from './watchFiles'
 
@@ -216,25 +216,24 @@ export class TypeScriptPlugin {
     const outPkgPath = path.resolve(path.join(BUILD_FOLDER, 'package.json'))
     const outModulesPath = path.resolve(path.join(BUILD_FOLDER, 'node_modules'))
 
+    // copy/link package.json
+    if (!fs.existsSync(outPkgPath)) {
+      await this.linkOrCopy(path.resolve('package.json'), outPkgPath, 'file')
+    }
+
     // copy development dependencies during packaging
     if (isPackaging) {
       if (fs.existsSync(outModulesPath)) {
         fs.unlinkSync(outModulesPath)
       }
 
-      fs.copySync(
-        path.resolve('node_modules'),
-        path.resolve(path.join(BUILD_FOLDER, 'node_modules'))
-      )
-    } else {
-      if (!fs.existsSync(outModulesPath)) {
-        await this.linkOrCopy(path.resolve('node_modules'), outModulesPath, 'junction')
-      }
+      execSync('npm install --production', { cwd: BUILD_FOLDER })
+      return
     }
 
-    // copy/link package.json
-    if (!fs.existsSync(outPkgPath)) {
-      await this.linkOrCopy(path.resolve('package.json'), outPkgPath, 'file')
+
+    if (!fs.existsSync(outModulesPath)) {
+      await this.linkOrCopy(path.resolve('node_modules'), outModulesPath, 'junction')
     }
   }
 
