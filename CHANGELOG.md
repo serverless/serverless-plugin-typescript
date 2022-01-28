@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.0...v2.1.1) (2022-01-28)
+
+### Bug Fixes
+
+* Fix resolution of `invoke local`  related lifecycle hook ([#258](https://github.com/serverless/serverless-plugin-typescript/pull/258)) ([378f3be](https://github.com/serverless/serverless-plugin-typescript/commit/378f3be96f61b98513b6c704047a64caad56d512)) ([Mariusz Nowak](https://github.com/medikoo))
+* Declare explicitly the `--watch` option on `invoke` ([#257](https://github.com/serverless/serverless-plugin-typescript/pull/257)) ([4a9e3dd](https://github.com/serverless/serverless-plugin-typescript/commit/4a9e3dddb1a0228538fa9d8ac88d4addd4f6840a)) ([Matthieu Napoli](https://github.com/mnapoli))
+
+### Maintanace Improvements
+
+* Mark as Serverless Framework v3 compatible ([#264](https://github.com/serverless/serverless-plugin-typescript/pull/264)) ([d32b657](https://github.com/serverless/serverless-plugin-typescript/commit/d32b6573305a107dc1a8a82afe0014492dbb096c)) ([Mariusz Nowak](https://github.com/medikoo))
+
 ## [2.1.0](https://github.com/serverless/serverless-plugin-typescript/compare/v2.0.0...v2.1.0) (2021-09-23)
 
 
