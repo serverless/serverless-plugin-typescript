@@ -15,8 +15,10 @@ declare namespace Serverless {
       functions: {
         [key: string]: Serverless.Function
       }
+      layers: { [key: string]: Serverless.Layer }
       package: Serverless.Package
       getAllFunctions(): string[]
+      getAllLayers: () => string[]
       custom?: {
         serverlessPluginTypescript?: {
           tsConfigFileLocation: string
@@ -34,6 +36,11 @@ declare namespace Serverless {
   }
 
   interface Function {
+    handler: string
+    package: Serverless.Package
+  }
+
+  interface Layer {
     handler: string
     package: Serverless.Package
   }
