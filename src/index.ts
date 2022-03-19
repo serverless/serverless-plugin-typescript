@@ -277,7 +277,7 @@ export class TypeScriptPlugin {
           SERVERLESS_FOLDER,
           path.basename(service.functions[name].package.artifact)
         )
-      })      
+      })
       return
     }
 

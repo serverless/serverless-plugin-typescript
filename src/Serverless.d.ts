@@ -18,7 +18,7 @@ declare namespace Serverless {
       layers: { [key: string]: Serverless.Layer }
       package: Serverless.Package
       getAllFunctions(): string[]
-      getAllLayers: () => string[]
+      getAllLayers(): string[]
       custom?: {
         serverlessPluginTypescript?: {
           tsConfigFileLocation: string
