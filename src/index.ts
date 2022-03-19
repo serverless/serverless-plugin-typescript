@@ -250,6 +250,15 @@ export class TypeScriptPlugin {
       path.join(this.originalServicePath, SERVERLESS_FOLDER)
     )
 
+    const layerNames = service.getAllLayers()
+    layerNames.forEach(name => {
+      service.layers[name].package.artifact = path.join(
+        this.originalServicePath,
+        SERVERLESS_FOLDER,
+        path.basename(service.layers[name].package.artifact)
+      )
+    })
+
     if (this.options.function) {
       const fn = service.functions[this.options.function]
       fn.package.artifact = path.join(
@@ -268,15 +277,7 @@ export class TypeScriptPlugin {
           SERVERLESS_FOLDER,
           path.basename(service.functions[name].package.artifact)
         )
-      })
-      const layerNames = service.getAllLayers()
-      layerNames.forEach(name => {
-        service.layers[name].package.artifact = path.join(
-          this.originalServicePath,
-          SERVERLESS_FOLDER,
-          path.basename(service.layers[name].package.artifact)
-        )
-      })
+      })      
       return
     }
 
