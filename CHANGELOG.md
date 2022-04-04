@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.1...v2.1.2) (2022-04-04)
+
+### Bug Fixes
+
+* Fix lambda layers support ([#267](https://github.com/serverless/serverless-plugin-typescript/issues/267)) ([a4407c9](https://github.com/serverless/serverless-plugin-typescript/commit/a4407c9062ddc9aeb8dd298b4c28f3730bccf5f5)) ([mmeyers-xomly](https://github.com/mmeyers-xomly))
+
 ### [2.1.1](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.0...v2.1.1) (2022-01-28)
 
 ### Bug Fixes
