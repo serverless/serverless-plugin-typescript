@@ -4,6 +4,7 @@ import * as path from 'path'
 const functions: { [key: string]: Serverless.Function } = {
     hello: {
         handler: 'tests/assets/hello.handler',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
             exclude: [],
@@ -12,6 +13,7 @@ const functions: { [key: string]: Serverless.Function } = {
     },
     world: {
         handler: 'tests/assets/world.handler',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
             exclude: [],
@@ -20,6 +22,7 @@ const functions: { [key: string]: Serverless.Function } = {
     },
     js: {
         handler: 'tests/assets/jsfile.create',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
             exclude: [],

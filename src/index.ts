@@ -93,14 +93,25 @@ export class TypeScriptPlugin {
   get functions() {
     const { options } = this
     const { service } = this.serverless
+    const functions = service.functions || {}
 
-    if (options.function) {
+    const nodeFunctions = Object.keys(functions)
+      .filter(functionKey => {
+        const runtime = functions[functionKey].runtime || service.provider.runtime
+        return runtime.includes('nodejs')
+      })
+      .reduce((obj, key) => {
+        obj[key] = functions[key]
+        return obj
+    }, {})
+
+    if (options.function && nodeFunctions[options.function]) {
       return {
-        [options.function]: service.functions[this.options.function]
+        [options.function]: nodeFunctions[options.function]
       }
     }
 
-    return service.functions
+    return nodeFunctions
   }
 
   get rootFileNames() {
