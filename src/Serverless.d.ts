@@ -11,6 +11,7 @@ declare namespace Serverless {
     service: {
       provider: {
         name: string
+        runtime?: string
       }
       functions: {
         [key: string]: Serverless.Function
@@ -38,6 +39,7 @@ declare namespace Serverless {
   interface Function {
     handler: string
     package: Serverless.Package
+    runtime?: string
   }
 
   interface Layer {
