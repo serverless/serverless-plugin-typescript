@@ -95,15 +95,13 @@ export class TypeScriptPlugin {
     const { service } = this.serverless
     const functions = service.functions || {}
 
-    const nodeFunctions = Object.keys(functions)
-      .filter(functionKey => {
-        const runtime = functions[functionKey].runtime || service.provider.runtime
-        return runtime.includes('nodejs')
-      })
-      .reduce((obj, key) => {
-        obj[key] = functions[key]
-        return obj
-    }, {})
+    const nodeFunctions = {}
+    for (const [name, functionObject] of Object.entries(functions)) {
+      const runtime = functions[name].runtime || service.provider.runtime
+      if (runtime.includes('nodejs')) {
+        nodeFunctions[name] = functionObject
+      }
+    }
 
     if (options.function && nodeFunctions[options.function]) {
       return {
