@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.2...v2.1.3) (2022-10-03)
+
+### Bug Fixes
+
+* Do not attempt to process non nodejs functions ([#277](https://github.com/serverless/serverless-plugin-typescript/issues/277)) ([ba2754b](https://github.com/serverless/serverless-plugin-typescript/commit/ba2754bfb704dc66aba3effb9e838821c4c7b1b8)) ([Spencer von der Ohe](https://github.com/sazzy4o))
+
 ### [2.1.2](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.1...v2.1.2) (2022-04-04)
 
 ### Bug Fixes
