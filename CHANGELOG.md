@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.3...v2.1.4) (2022-10-06)
+
+### Bug Fixes
+
+* Ensure to remove build directory ([#282](https://github.com/serverless/serverless-plugin-typescript/issues/282)) ([a1098de](https://github.com/serverless/serverless-plugin-typescript/commit/a1098de63f4f36b7ece330f53b9384f7de2bdafa)) ([Douwe](https://github.com/douwe-rm))
+
 ### [2.1.3](https://github.com/serverless/serverless-plugin-typescript/compare/v2.1.2...v2.1.3) (2022-10-03)
 
 ### Bug Fixes
