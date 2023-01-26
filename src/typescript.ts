@@ -2,7 +2,7 @@ import * as ts from 'typescript'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
-import transformPaths from "typescript-transform-paths";
+import transformPaths from 'typescript-transform-paths';
 
 export function makeDefaultTypescriptConfig() {
   const defaultTypescriptConfig: ts.CompilerOptions = {
