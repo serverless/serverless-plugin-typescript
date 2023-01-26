@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
-import * as globby from 'globby'
+import globby from 'globby'
 
 import * as typescript from './typescript'
 import { watchFiles } from './watchFiles'
@@ -16,10 +16,26 @@ export class TypeScriptPlugin {
   serverless: Serverless.Instance
   options: Serverless.Options
   hooks: { [key: string]: Function }
+  commands: Serverless.CommandsDefinition
 
   constructor(serverless: Serverless.Instance, options: Serverless.Options) {
     this.serverless = serverless
     this.options = options
+
+    this.commands = {
+      invoke: {
+        commands: {
+          local: {
+            options: {
+              watch: {
+                type: 'boolean',
+                usage: 'Watch file changes and re-invoke automatically the function'
+              }
+            }
+          }
+        }
+      }
+    }
 
     this.hooks = {
       'before:run:run': async () => {
@@ -66,10 +82,9 @@ export class TypeScriptPlugin {
           })
         }
       },
-      'after:invoke:local:invoke': () => {
+      'after:invoke:local:invoke': async () => {
         if (this.options.watch) {
-          this.watchFunction()
-          this.serverless.cli.log('Waiting for changes...')
+          await this.watchFunction()
         }
       }
     }
@@ -78,14 +93,23 @@ export class TypeScriptPlugin {
   get functions() {
     const { options } = this
     const { service } = this.serverless
+    const functions = service.functions || {}
 
-    if (options.function) {
-      return {
-        [options.function]: service.functions[this.options.function]
+    const nodeFunctions = {}
+    for (const [name, functionObject] of Object.entries(functions)) {
+      const runtime = functions[name].runtime || service.provider.runtime
+      if (runtime.includes('nodejs')) {
+        nodeFunctions[name] = functionObject
       }
     }
 
-    return service.functions
+    if (options.function && nodeFunctions[options.function]) {
+      return {
+        [options.function]: nodeFunctions[options.function]
+      }
+    }
+
+    return nodeFunctions
   }
 
   get rootFileNames() {
@@ -103,6 +127,7 @@ export class TypeScriptPlugin {
       fn.package = fn.package || {
         exclude: [],
         include: [],
+        patterns: []
       }
 
       // Add plugin to excluded packages or an empty array if exclude is undefined
@@ -116,10 +141,13 @@ export class TypeScriptPlugin {
     }
 
     this.serverless.cli.log(`Watch function ${this.options.function}...`)
+    this.serverless.cli.log('Waiting for changes...')
 
     this.isWatching = true
-    watchFiles(this.rootFileNames, this.originalServicePath, () => {
-      this.serverless.pluginManager.spawn('invoke:local')
+    await new Promise((resolve, reject) => {
+      watchFiles(this.rootFileNames, this.originalServicePath, () => {
+        this.serverless.pluginManager.spawn('invoke:local').catch(reject)
+      })
     })
   }
 
@@ -144,9 +172,16 @@ export class TypeScriptPlugin {
       // Fake service path so that serverless will know what to zip
       this.serverless.config.servicePath = path.join(this.originalServicePath, BUILD_FOLDER)
     }
-
+    let tsConfigFileLocation: string | undefined
+    if (
+      this.serverless.service.custom !== undefined
+      && this.serverless.service.custom.serverlessPluginTypescript !== undefined
+    ) {
+      tsConfigFileLocation = this.serverless.service.custom.serverlessPluginTypescript.tsConfigFileLocation
+    }
     const tsconfig = typescript.getTypescriptConfig(
       this.originalServicePath,
+      tsConfigFileLocation,
       this.isWatching ? null : this.serverless.cli
     )
 
@@ -155,19 +190,20 @@ export class TypeScriptPlugin {
     const emitedFiles = await typescript.run(
         this.rootFileNames,
         tsconfig,
-        { paths: this.serverless.service?.custom?.typescript?.paths ?? false }
+        { paths: this.serverless.service?.custom?.serverlessPluginTypescript?.paths ?? false }
     )
     this.serverless.cli.log('Typescript compiled.')
     return emitedFiles
   }
 
-  /** Link or copy extras such as node_modules or package.include definitions */
+  /** Link or copy extras such as node_modules or package.patterns definitions */
   async copyExtras() {
     const { service } = this.serverless
 
+    const patterns = [...(service.package.include || []), ...(service.package.patterns || [])]
     // include any "extras" from the "include" section
-    if (service.package.include && service.package.include.length > 0) {
-      const files = await globby(service.package.include)
+    if (patterns.length > 0) {
+      const files = await globby(patterns)
 
       for (const filename of files) {
         const destFileName = path.resolve(path.join(BUILD_FOLDER, filename))
@@ -196,7 +232,7 @@ export class TypeScriptPlugin {
     // copy development dependencies during packaging
     if (isPackaging) {
       if (fs.existsSync(outModulesPath)) {
-        fs.unlinkSync(outModulesPath)
+        fs.removeSync(outModulesPath)
       }
 
       fs.copySync(
@@ -226,6 +262,15 @@ export class TypeScriptPlugin {
       path.join(this.originalServicePath, BUILD_FOLDER, SERVERLESS_FOLDER),
       path.join(this.originalServicePath, SERVERLESS_FOLDER)
     )
+
+    const layerNames = service.getAllLayers()
+    layerNames.forEach(name => {
+      service.layers[name].package.artifact = path.join(
+        this.originalServicePath,
+        SERVERLESS_FOLDER,
+        path.basename(service.layers[name].package.artifact)
+      )
+    })
 
     if (this.options.function) {
       const fn = service.functions[this.options.function]

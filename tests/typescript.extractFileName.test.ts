@@ -4,23 +4,29 @@ import * as path from 'path'
 const functions: { [key: string]: Serverless.Function } = {
     hello: {
         handler: 'tests/assets/hello.handler',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
     world: {
         handler: 'tests/assets/world.handler',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
     js: {
         handler: 'tests/assets/jsfile.create',
+        runtime: 'nodejs10.1',
         package: {
             include: [],
-            exclude: []
+            exclude: [],
+            patterns: []
         }
     },
 }

@@ -11,15 +11,21 @@ declare namespace Serverless {
     service: {
       provider: {
         name: string
+        runtime?: string
       }
       functions: {
         [key: string]: Serverless.Function
       }
-      custom: {
-        [key: string]: any
-      }
+      layers: { [key: string]: Serverless.Layer }
       package: Serverless.Package
       getAllFunctions(): string[]
+      getAllLayers(): string[]
+      custom?: {
+        serverlessPluginTypescript?: {
+          tsConfigFileLocation: string,
+          paths?: boolean
+        }
+      }
     }
 
     pluginManager: PluginManager
@@ -34,14 +40,38 @@ declare namespace Serverless {
   interface Function {
     handler: string
     package: Serverless.Package
+    runtime?: string
+  }
+
+  interface Layer {
+    handler: string
+    package: Serverless.Package
   }
 
   interface Package {
     include: string[]
     exclude: string[]
+    patterns: string[]
     artifact?: string
     individually?: boolean
   }
+
+  type CommandsDefinition = Record<
+      string,
+      {
+        lifecycleEvents?: string[]
+        commands?: CommandsDefinition
+        usage?: string
+        options?: {
+          [name: string]: {
+            type: string
+            usage: string
+            required?: boolean
+            shortcut?: string
+          }
+        }
+      }
+      >
 
   interface PluginManager {
     spawn(command: string): Promise<void>

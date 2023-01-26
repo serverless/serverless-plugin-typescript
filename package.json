@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-typescript",
-  "version": "0.0.0-semantic-release",
+  "version": "2.1.4",
   "license": "MIT",
   "main": "dist/src/index.js",
   "files": [
@@ -9,17 +9,39 @@
     "README.md"
   ],
   "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prepare-release": "standard-version",
     "prepublish": "npm run build",
     "precommit": "npm run test",
-    "build": "rimraf dist && tsc",
     "pretest": "npm run lint",
-    "test": "jest",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/prisma/serverless-plugin-typescript.git"
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true
+    },
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "perf",
+        "section": "Performance Improvements"
+      },
+      {
+        "type": "refactor",
+        "section": "Maintenance Improvements"
+      }
+    ]
   },
+  "repository": "serverless/serverless-plugin-typescript",
   "keywords": [
     "serverless",
     "serverless plugin",
@@ -34,17 +56,20 @@
     "jest": "24.5.0",
     "mock-fs": "4.9.0",
     "rimraf": "2.6.3",
+    "standard-version": "^9.5.0",
     "ts-jest": "24.0.2",
+    "ts-node": "^10.9.1",
     "tslint": "5.14.0",
-    "typescript": "^3.7.0"
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
-    "globby": "^9.2.0",
-    "lodash": "^4.17.11",
-    "typescript-transform-paths": "^3.0.2"
+    "globby": "^11.1.0",
+    "lodash": "^4.17.21",
+    "typescript-transform-paths": "^3.4.6"
   },
   "peerDependencies": {
+    "serverless": "2 || 3",
     "typescript": ">=2.2.2"
   },
   "jest": {
@@ -55,5 +80,8 @@
       "tsx",
       "js"
     ]
+  },
+  "engines": {
+    "node": ">=10.0"
   }
 }

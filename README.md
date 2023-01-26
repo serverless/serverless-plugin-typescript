@@ -1,7 +1,10 @@
 # serverless-plugin-typescript
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![npm version](https://badge.fury.io/js/serverless-plugin-typescript.svg)](https://badge.fury.io/js/serverless-plugin-typescript) [![Build Status](https://travis-ci.org/prisma/serverless-plugin-typescript.svg?branch=master)](https://travis-ci.org/prisma/serverless-plugin-typescript)
 
+_Originally developed by [Prisma Labs](https://github.com/prisma-labs/), now maintained in scope of [Serverless, Inc](https://www.serverless.com/)_
+
 Serverless plugin for zero-config Typescript support
+
 
 ## Features
 
@@ -58,6 +61,14 @@ The default `tsconfig.json` file used by the plugin looks like this:
 
 All files from `package/include` will be included in the final build file. See [Exclude/Include](https://serverless.com/framework/docs/providers/aws/guide/packaging#exclude--include)
 
+### Non-standard tsconfig.json locations
+Override what tsconfig.json to use with the following snippet in your severless.yaml
+```
+custom:
+  serverlessPluginTypescript:
+    tsConfigFileLocation: './tsconfig.build.json'
+
+```
 
 ## Usage
 
@@ -173,13 +184,6 @@ resolution with the following option:
 
 ```yml
 custom:
-  typescript:
+  serverlessPluginTypescript:
     paths: true
 ```
-
-## Help & Community
-
-Join our [Spectrum community](http://spectrum.chat/prisma) if you run into issues or have questions. We love talking to you!
-
-<p align="center"><a href="https://oss.prisma.io"><img src="https://imgur.com/IMU2ERq.png" alt="Prisma" height="170px"></a></p>
-
