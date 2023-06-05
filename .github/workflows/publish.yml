@@ -33,16 +33,6 @@ jobs:
           node-version: 16.x
           registry-url: https://registry.npmjs.org
 
-      - name: Build
-        run: npm run build
-
-      - name: Publish new version
-        # Note: Setting NODE_AUTH_TOKEN as job|workspace wide env var won't work
-        #       as it appears actions/setup-node sets own value
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish
-
       # Normally we have a guarantee that deps are already there, still it may not be the case when:
       # - `master` build for same commit failed (and we still pushed tag manually)
       # - We've pushed tag manually before `master` build finalized
@@ -52,6 +42,15 @@ jobs:
           npm update --no-save
           npm update --save-dev --no-save
 
+      - name: Build
+        run: npm run build
+
+      - name: Publish new version
+        # Note: Setting NODE_AUTH_TOKEN as job|workspace wide env var won't work
+        #       as it appears actions/setup-node sets own value
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
       - name: Publish release notes
         run: |
           TEMP_ARRAY=($(echo $GITHUB_REF | tr "/" "\n"))
