@@ -210,7 +210,7 @@ export class TypeScriptPlugin {
         }
 
         if (!fs.existsSync(destFileName)) {
-          fs.copySync(path.resolve(filename), path.resolve(path.join(BUILD_FOLDER, filename)))
+          fs.copySync(path.resolve(filename), path.resolve(path.join(BUILD_FOLDER, filename)), { dereference: true })
         }
       }
     }
@@ -233,7 +233,8 @@ export class TypeScriptPlugin {
 
       fs.copySync(
         path.resolve('node_modules'),
-        path.resolve(path.join(BUILD_FOLDER, 'node_modules'))
+        path.resolve(path.join(BUILD_FOLDER, 'node_modules')),
+        { dereference: true }
       )
     } else {
       if (!fs.existsSync(outModulesPath)) {
