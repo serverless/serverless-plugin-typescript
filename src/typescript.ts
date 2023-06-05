@@ -82,7 +82,7 @@ export async function run(fileNames: string[], options: ts.CompilerOptions): Pro
     if (!diagnostic.file) {
       console.log(diagnostic)
     }
-    const {line, character} = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
+    const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
     const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
     console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`)
   })
@@ -147,4 +147,26 @@ export function getTypescriptConfig(
   }
 
   return makeDefaultTypescriptConfig()
+}
+
+export function getTypescriptCompileFiles(
+  cwd: string,
+): string[] {
+  const configFilePath = path.join(cwd, 'tsconfig.json')
+
+  if (fs.existsSync(configFilePath)) {
+
+    const configFileText = fs.readFileSync(configFilePath).toString()
+    const result = ts.parseConfigFileTextToJson(configFilePath, configFileText)
+    if (result.error) {
+      throw new Error(JSON.stringify(result.error))
+    }
+
+    const configParseResult = ts.parseJsonConfigFileContent(result.config, ts.sys, path.dirname(configFilePath))
+    if (configParseResult.errors.length > 0) {
+      throw new Error(JSON.stringify(configParseResult.errors))
+    }
+    return  configParseResult.fileNames.map(f => f.replace(cwd + '/', ''))
+  }
+  return []
 }
