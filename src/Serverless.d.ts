@@ -22,7 +22,8 @@ declare namespace Serverless {
       getAllLayers(): string[]
       custom?: {
         serverlessPluginTypescript?: {
-          tsConfigFileLocation: string
+          tsConfigFileLocation: string,
+          paths?: boolean
         }
       }
     }

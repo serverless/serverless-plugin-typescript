@@ -177,3 +177,13 @@ module.exports = {
 }
 ```
 
+### Resolve tsconfig paths
+
+You can enable `tsconfig` [paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
+resolution with the following option:
+
+```yml
+custom:
+  serverlessPluginTypescript:
+    paths: true
+```

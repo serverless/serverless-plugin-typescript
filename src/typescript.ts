@@ -2,6 +2,7 @@ import * as ts from 'typescript'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as path from 'path'
+import transformPaths from 'typescript-transform-paths';
 
 export function makeDefaultTypescriptConfig() {
   const defaultTypescriptConfig: ts.CompilerOptions = {
@@ -70,11 +71,17 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
     })
 }
 
-export async function run(fileNames: string[], options: ts.CompilerOptions): Promise<string[]> {
+export async function run(fileNames: string[], options: ts.CompilerOptions, { paths = false }: { paths?: boolean } = {}): Promise<string[]> {
   options.listEmittedFiles = true
   const program = ts.createProgram(fileNames, options)
 
-  const emitResult = program.emit()
+  const emitResult = program.emit(
+      undefined,
+      undefined,
+      undefined,
+      false,
+      paths ? { before: [transformPaths(program, {}, { ts })] } : {}
+  )
 
   const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics)
 
