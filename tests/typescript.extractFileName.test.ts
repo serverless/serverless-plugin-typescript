@@ -29,6 +29,16 @@ const functions: { [key: string]: Serverless.Function } = {
             patterns: []
         }
     },
+    dockerBasedFunction: {
+        image: {
+            name: 'path/to/lambda/image'
+        },
+        package: {
+            include: [],
+            exclude: [],
+            patterns: []
+        }
+    }
 }
 
 describe('extractFileName', () => {
