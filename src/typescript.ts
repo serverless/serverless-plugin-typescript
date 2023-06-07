@@ -48,6 +48,7 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
 
   return _.values(functions)
     .map(fn => fn.handler)
+    .filter(Boolean)
     .map(h => {
       const fnName = _.last(h.split('.'))
       const fnNameLastAppearanceIndex = h.lastIndexOf(fnName)

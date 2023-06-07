@@ -37,11 +37,15 @@ declare namespace Serverless {
   }
 
   interface Function {
-    handler: string
+    handler?: string
     package: Serverless.Package
     runtime?: string
+    image?: Serverless.Image
   }
 
+  interface Image {
+    name: string
+  }
   interface Layer {
     handler: string
     package: Serverless.Package
