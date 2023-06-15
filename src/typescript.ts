@@ -33,8 +33,8 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
       const packageFile = JSON.parse(fs.readFileSync(packageFilePath).toString())
 
       // Either grab the package.json:main field, or use the index.ts file.
-      // (This will be transpiled to index.js).
-      const main = packageFile.main ? packageFile.main.replace(/\.js$/, '.ts') : 'index.ts'
+      // (This will be transpiled to index.js or index.mjs).
+      const main = packageFile.main ? packageFile.main.replace(/\.mjs$/, '.mts').replace(/\.js$/, '.ts') : 'index.ts'
 
       // Check that the file indeed exists.
       if (!fs.existsSync(path.join(cwd, main))) {
@@ -64,9 +64,19 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
         return fileName + 'js'
       }
 
+      // Check if the .mts files exists. If so return that to watch
+      if (fs.existsSync(path.join(cwd, fileName + 'mts'))) {
+        return fileName + 'mts'
+      }
+
+      // Check if the .mjs files exist. If so return that to watch
+      if (fs.existsSync(path.join(cwd, fileName + 'mjs'))) {
+        return fileName + 'mjs'
+      }
+
       // Can't find the files. Watch will have an exception anyway. So throw one with error.
       console.log(`Cannot locate handler - ${fileName} not found`)
-      throw new Error('Typescript compilation failed. Please ensure handlers exists with ext .ts or .js')
+      throw new Error('Typescript compilation failed. Please ensure handlers exists with ext .ts/.mts or .js/.mjs')
     })
 }
 

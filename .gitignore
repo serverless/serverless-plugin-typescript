@@ -4,3 +4,5 @@ node_modules
 .serverless
 dist
 *.log
+.vscode
+package-lock.json
