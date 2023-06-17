@@ -255,8 +255,8 @@ export class TypeScriptPlugin {
     const { service } = this.serverless
 
     await fs.copy(
-      path.join(this.originalServicePath, BUILD_FOLDER, SERVERLESS_FOLDER),
-      path.join(this.originalServicePath, SERVERLESS_FOLDER)
+      path.join(this.originalServicePath, SERVERLESS_FOLDER),
+      path.join(this.originalServicePath, BUILD_FOLDER, SERVERLESS_FOLDER)
     )
 
     const layerNames = service.getAllLayers()
@@ -290,7 +290,7 @@ export class TypeScriptPlugin {
       return
     }
 
-    service.package.artifact = path.join(
+    service.package.artifact = service.package.artifact && path.join(
       this.originalServicePath,
       SERVERLESS_FOLDER,
       path.basename(service.package.artifact)
