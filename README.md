@@ -47,6 +47,7 @@ The default `tsconfig.json` file used by the plugin looks like this:
     "target": "es5",
     "outDir": ".build",
     "moduleResolution": "node",
+    "module": "commonjs",
     "lib": ["es2015"],
     "rootDir": "./"
   }
