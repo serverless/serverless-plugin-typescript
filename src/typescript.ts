@@ -150,9 +150,9 @@ export function getTypescriptConfig(
 }
 
 export function getTypescriptCompileFiles(
-  cwd: string,
+  cwd: string, tsConfigFileLocation: string
 ): string[] {
-  const configFilePath = path.join(cwd, 'tsconfig.json')
+  const configFilePath = path.join(cwd, tsConfigFileLocation)
 
   if (fs.existsSync(configFilePath)) {
 

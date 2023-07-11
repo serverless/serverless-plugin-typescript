@@ -117,7 +117,7 @@ export class TypeScriptPlugin {
       this.originalServicePath,
       this.serverless.service.provider.name,
       this.functions
-    ), typescript.getTypescriptCompileFiles(this.originalServicePath))
+    ), typescript.getTypescriptCompileFiles(this.originalServicePath, this.getTsConfigFileLocation()))
   }
 
   prepare() {
@@ -162,6 +162,17 @@ export class TypeScriptPlugin {
     watchFiles(this.rootFileNames, this.originalServicePath, this.compileTs.bind(this))
   }
 
+  getTsConfigFileLocation() {
+    let tsConfigFileLocation
+    if (
+      this.serverless.service.custom !== undefined
+      && this.serverless.service.custom.serverlessPluginTypescript !== undefined
+    ) {
+      tsConfigFileLocation = this.serverless.service.custom.serverlessPluginTypescript.tsConfigFileLocation
+    }
+    return tsConfigFileLocation ?? 'tsconfig.json'
+  }
+
   async compileTs(): Promise<string[]> {
     this.prepare()
     this.serverless.cli.log('Compiling with Typescript...')
@@ -172,16 +183,10 @@ export class TypeScriptPlugin {
       // Fake service path so that serverless will know what to zip
       this.serverless.config.servicePath = path.join(this.originalServicePath, BUILD_FOLDER)
     }
-    let tsConfigFileLocation: string | undefined
-    if (
-      this.serverless.service.custom !== undefined
-      && this.serverless.service.custom.serverlessPluginTypescript !== undefined
-    ) {
-      tsConfigFileLocation = this.serverless.service.custom.serverlessPluginTypescript.tsConfigFileLocation
-    }
+
     const tsconfig = typescript.getTypescriptConfig(
       this.originalServicePath,
-      tsConfigFileLocation,
+      this.getTsConfigFileLocation(),
       this.isWatching ? null : this.serverless.cli
     )
 
