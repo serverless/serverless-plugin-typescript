@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
-    "globby": "^10.0.2",
+    "globby": "^11.0.4",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
