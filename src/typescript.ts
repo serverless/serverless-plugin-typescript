@@ -66,7 +66,7 @@ export function extractFileNames(cwd: string, provider: string, functions?: { [k
 
       // Can't find the files. Watch will have an exception anyway. So throw one with error.
       console.log(`Cannot locate handler - ${fileName} not found`)
-      throw new Error('Typescript compilation failed. Please ensure handlers exists with ext .ts or .js')
+      throw new Error(`Typescript compilation failed. Please ensure ${fileName} exists with ext .ts or .js`);
     })
 }
 
