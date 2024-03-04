@@ -189,6 +189,10 @@ export class TypeScriptPlugin {
 
     const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
     this.serverless.cli.log('Typescript compiled.')
+
+    // Restore service path
+    this.serverless.config.servicePath = this.originalServicePath;
+
     return emitedFiles
   }
 
