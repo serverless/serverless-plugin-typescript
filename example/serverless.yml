@@ -1,16 +1,19 @@
-service: serverless-example
-
-plugins:
-  - serverless-plugin-typescript
+service: dex-aggregator-api
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs20.x
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+useDotenv: true
 
 functions:
-  hello:
-    handler: handler.hello
+  healthcheck:
+    handler: src/handler.healthcheck
     events:
-      - http:
-          path: hello
+      - httpApi:
+          path: /healthcheck
           method: get
